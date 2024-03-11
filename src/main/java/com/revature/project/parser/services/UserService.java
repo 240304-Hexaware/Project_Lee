@@ -1,6 +1,7 @@
 package com.revature.project.parser.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,18 @@ public class UserService {
 
   public List<User> getUsers() {
     return userRepository.findAll();
+  }
+
+  public User saveUser(User requestedUser) {
+    return userRepository.save(requestedUser);
+  }
+
+  public User findByUsername(String username) {
+    Optional<User> found = userRepository.findByUsername(username);
+    if (found.isPresent()) {
+      return found.get();
+    }
+    return null;
   }
 
 }

@@ -1,6 +1,7 @@
 package com.revature.project.parser.models;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class User {
 
   @Field("_id")
+  @Id
   private ObjectId id;
 
   @Field("username")
@@ -19,6 +21,9 @@ public class User {
   @Field("is_admin")
   private Boolean isAdmin;
 
+  @Field("is_disabled")
+  private Boolean isDisabled;
+
   public User() {
   }
 
@@ -27,6 +32,15 @@ public class User {
     this.username = username;
     this.password = password;
     this.isAdmin = isAdmin;
+    this.isDisabled = false;
+  }
+
+  public User(ObjectId id, String username, String password, Boolean isAdmin, Boolean isDisabled) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.isAdmin = isAdmin;
+    this.isDisabled = isDisabled;
   }
 
   public User(ObjectId id, String username, String password) {
@@ -34,12 +48,14 @@ public class User {
     this.username = username;
     this.password = password;
     this.isAdmin = false;
+    this.isDisabled = false;
   }
 
   public User(String username, String password) {
     this.username = username;
     this.password = password;
     this.isAdmin = false;
+    this.isDisabled = false;
   }
 
   public ObjectId getId() {
@@ -73,4 +89,13 @@ public class User {
   public void setIsAdmin(Boolean isAdmin) {
     this.isAdmin = isAdmin;
   }
+
+  public Boolean getIsDisabled() {
+    return isDisabled;
+  }
+
+  public void setIsDisabled(Boolean isDisabled) {
+    this.isDisabled = isDisabled;
+  }
+
 }

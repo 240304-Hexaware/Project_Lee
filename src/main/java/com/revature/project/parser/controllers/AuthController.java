@@ -13,7 +13,7 @@ import com.revature.project.parser.models.User;
 import com.revature.project.parser.payload.request.LoginRequest;
 import com.revature.project.parser.payload.request.RegistrationRequest;
 import com.revature.project.parser.services.UserService;
-import com.revature.project.utils.PasswordEncoderUtil;
+import com.revature.project.parser.utils.PasswordEncoderUtil;
 
 @RestController
 public class AuthController {

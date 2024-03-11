@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.revature.project.parser.exceptions.UserNotFoundException;
 import com.revature.project.parser.models.User;
 import com.revature.project.parser.repositories.UserRepository;
 
@@ -31,6 +32,31 @@ public class UserService {
       return found.get();
     }
     return null;
+  }
+
+  public User promoteUser(String username) throws UserNotFoundException {
+    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+    System.out.println(found.getIsDisabled());
+    found.setIsAdmin(true);
+    return userRepository.save(found);
+  }
+
+  public User demoteUser(String username) throws UserNotFoundException {
+    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+    found.setIsAdmin(false);
+    return userRepository.save(found);
+  }
+
+  public User disableUser(String username) throws UserNotFoundException {
+    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+    found.setIsDisabled(true);
+    return userRepository.save(found);
+  }
+
+  public User enableUser(String username) throws UserNotFoundException {
+    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+    found.setIsDisabled(false);
+    return userRepository.save(found);
   }
 
 }

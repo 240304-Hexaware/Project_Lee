@@ -1,4 +1,4 @@
-package com.revature.project.utils;
+package com.revature.project.parser.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

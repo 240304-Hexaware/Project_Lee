@@ -34,6 +34,14 @@ public class UserService {
     return null;
   }
 
+  public String findHexIdByUsername(String username) {
+    Optional<User> found = userRepository.findByUsername(username);
+    if (found.isPresent()) {
+      return found.get().getId().toHexString();
+    }
+    return null;
+  }
+
   public User promoteUser(String username) throws UserNotFoundException {
     User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
     System.out.println(found.getIsDisabled());

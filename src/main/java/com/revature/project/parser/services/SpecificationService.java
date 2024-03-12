@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +42,7 @@ public class SpecificationService {
       specification.setUserId(foundUserId);
       specification.setSpecs(parsedMap);
       specificationRepository.save(specification);
-      localStorageService.store(file);
+      localStorageService.store(file, "specification");
       return specification;
     } catch (IOException e) {
       e.printStackTrace();
@@ -55,6 +56,10 @@ public class SpecificationService {
       return Arrays.asList();
     }
     return specificationRepository.findAllByUserId(found.getId().toHexString());
+  }
+
+  public Specification findById(String id) {
+    return specificationRepository.findById(new ObjectId(id)).get();
   }
 
 }

@@ -1,10 +1,5 @@
 package com.revature.project.parser.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,18 +10,6 @@ public class FileParser {
 
   private FileParser() {
 
-  }
-
-  public static String readCompleteChars(File file) throws IOException {
-    FileInputStream stream = new FileInputStream(file);
-    StringBuilder builder = new StringBuilder();
-    try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
-      while (reader.ready()) {
-        builder.append((char) reader.read());
-      }
-    }
-
-    return builder.toString();
   }
 
   // TODO: make it to handle date type

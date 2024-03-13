@@ -1,6 +1,11 @@
 package com.revature.project.parser.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,6 +44,19 @@ public class LocalStorageService implements StorageService {
       e.printStackTrace();
     }
     return destinationFile.toString();
+  }
+
+  @Override
+  public String readFileAsString(String filePath) throws IOException {
+    FileInputStream stream = new FileInputStream(new File(filePath));
+    StringBuilder builder = new StringBuilder();
+    try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+      while (reader.ready()) {
+        builder.append((char) reader.read());
+      }
+    }
+
+    return builder.toString();
   }
 
 }

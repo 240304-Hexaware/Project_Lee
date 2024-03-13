@@ -1,0 +1,22 @@
+{
+  "field1": {
+    "start_pos": 0,
+    "end_pos": 5,
+    "dataType": "String"
+  },
+  "field2": {
+    "start_pos": 6,
+    "end_pos": 11,
+    "dataType": "String"
+  },
+  "field3": {
+    "start_pos": 12,
+    "end_pos": 17,
+    "dataType": "String"
+  },
+  "field4": {
+    "start_pos": 18,
+    "end_pos": 30,
+    "dataType": "date"
+  }
+}

@@ -5,8 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,16 +29,16 @@ public class FileParser {
     return builder.toString();
   }
 
-  public static List<String> readStringFields(String data, Map<String, Field> spec) {
-    List<String> fieldList = new ArrayList<>();
+  // TODO: make it to handle date type
+  public static Map<String, String> readStringFields(String data, Map<String, Field> spec) {
+    Map<String, String> resultMap = new HashMap<>();
 
     Set<String> fields = spec.keySet();
     for (String fieldName : fields) {
       Field field = spec.get(fieldName);
       String fieldValue = data.substring(field.getStartPos(), field.getEndPos() + 1).trim();
-      fieldList.add(fieldValue);
-      System.out.println("[" + fieldName + "][" + fieldValue + "]");
+      resultMap.put(fieldName, fieldValue);
     }
-    return fieldList;
+    return resultMap;
   }
 }

@@ -1,9 +1,12 @@
 package com.revature.project.parser.services;
 
+import java.util.Optional;
+
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.revature.project.parser.exceptions.ItemNotFoundException;
 import com.revature.project.parser.models.FixedLengthFile;
 import com.revature.project.parser.repositories.FixedLengthFileRepository;
 
@@ -28,8 +31,12 @@ public class FixedLengthFileService {
     fixedLengthFileRepository.save(fixedLengthFile);
   }
 
-  public FixedLengthFile findById(String rawFileId) {
-    return fixedLengthFileRepository.findById(new ObjectId(rawFileId)).get();
+  public FixedLengthFile findById(String rawFileId) throws ItemNotFoundException {
+    Optional<FixedLengthFile> found = fixedLengthFileRepository.findById(new ObjectId(rawFileId));
+    if (found.isEmpty()) {
+      throw new ItemNotFoundException("No flat file exists");
+    }
+    return found.get();
   }
 
 }

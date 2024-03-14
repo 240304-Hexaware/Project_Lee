@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.project.parser.exceptions.ItemNotFoundException;
+import com.revature.project.parser.exceptions.UserNotFoundException;
 import com.revature.project.parser.models.ParsedRecord;
 import com.revature.project.parser.payload.request.TaskRequest;
 import com.revature.project.parser.services.ParsedRecordService;
@@ -25,7 +26,8 @@ public class TaskController {
 
   @PostMapping("/tasks")
   @ResponseStatus(HttpStatus.OK)
-  public ParsedRecord process(@RequestBody TaskRequest taskRequest) throws IOException, ItemNotFoundException {
+  public ParsedRecord process(@RequestBody TaskRequest taskRequest)
+      throws IOException, ItemNotFoundException, UserNotFoundException {
     return parsedRecordService.process(taskRequest.username(), taskRequest.rawFileId(), taskRequest.specId());
   }
 
@@ -38,6 +40,12 @@ public class TaskController {
   @ExceptionHandler(IOException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public String ioException(IOException e) {
+    return e.getMessage();
+  }
+
+  @ExceptionHandler(UserNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public String userNotFound(UserNotFoundException e) {
     return e.getMessage();
   }
 

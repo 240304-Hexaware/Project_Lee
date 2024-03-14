@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.revature.project.parser.exceptions.ItemNotFoundException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
+import com.revature.project.parser.models.FileMetadata;
 import com.revature.project.parser.models.FixedLengthFile;
 import com.revature.project.parser.models.ParsedRecord;
 import com.revature.project.parser.models.Specification;
@@ -22,15 +23,17 @@ public class ParsedRecordService {
   private final FixedLengthFileService fixedLengthFileService;
   private final ParsedRecordRepository parsedRecordRepository;
   private final LocalStorageService localStorageService;
+  private final FileMetadataService fileMetadataService;
 
   public ParsedRecordService(UserService userService, FixedLengthFileService fixedLengthFileService,
       SpecificationService specificationService, ParsedRecordRepository parsedRecordRepository,
-      LocalStorageService localStorageService) {
+      LocalStorageService localStorageService, FileMetadataService fileMetadataService) {
     this.userService = userService;
     this.fixedLengthFileService = fixedLengthFileService;
     this.specificationService = specificationService;
     this.parsedRecordRepository = parsedRecordRepository;
     this.localStorageService = localStorageService;
+    this.fileMetadataService = fileMetadataService;
   }
 
   public ParsedRecord process(String username, String rawFileId, String specId)
@@ -42,9 +45,10 @@ public class ParsedRecordService {
     String rawData = localStorageService.readFileAsString(rawFile.getFilePath());
     Map<String, String> parsed = FileParser.readStringFields(rawData, spec.getSpecs());
     ParsedRecord parsedRecord = new ParsedRecord(userId, null, new Document(parsed));
-
-    // TODO: metadata
-    return parsedRecordRepository.save(parsedRecord);
+    ParsedRecord saved = parsedRecordRepository.save(parsedRecord);
+    FileMetadata createdMetadata = fileMetadataService.create(rawFileId, saved.getId().toHexString(), specId);
+    parsedRecord.setMetadataId(createdMetadata.getId().toHexString());
+    return saved;
   }
 
   private String getValidUserId(String username) throws UserNotFoundException {

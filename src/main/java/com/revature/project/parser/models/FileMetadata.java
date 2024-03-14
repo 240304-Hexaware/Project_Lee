@@ -1,5 +1,6 @@
 package com.revature.project.parser.models;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -8,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class FileMetadata {
   @Id
   @Field("_id")
-  private String id;
+  private ObjectId id;
 
   @Field("raw_file_id")
   private String rawFileId;
@@ -22,7 +23,7 @@ public class FileMetadata {
   public FileMetadata() {
   }
 
-  public FileMetadata(String id, String rawFileId, String parsedDataId, String specificationId) {
+  public FileMetadata(ObjectId id, String rawFileId, String parsedDataId, String specificationId) {
     this.id = id;
     this.rawFileId = rawFileId;
     this.parsedDataId = parsedDataId;
@@ -35,11 +36,11 @@ public class FileMetadata {
     this.specificationId = specificationId;
   }
 
-  public String getId() {
+  public ObjectId getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(ObjectId id) {
     this.id = id;
   }
 

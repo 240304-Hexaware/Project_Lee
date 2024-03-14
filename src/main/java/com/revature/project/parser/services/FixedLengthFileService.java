@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.revature.project.parser.exceptions.ItemNotFoundException;
 import com.revature.project.parser.models.FixedLengthFile;
 import com.revature.project.parser.repositories.FixedLengthFileRepository;
+import com.revature.project.parser.services.LocalStorageService.Folder;
 
 @Service
 public class FixedLengthFileService {
@@ -25,7 +26,7 @@ public class FixedLengthFileService {
   }
 
   public void store(MultipartFile file, String username) {
-    String filePath = storageService.store(file, "flatfile");
+    String filePath = storageService.store(file, Folder.FLATFILE);
     String userId = userService.findHexIdByUsername(username);
     FixedLengthFile fixedLengthFile = new FixedLengthFile(file.getOriginalFilename(), userId, filePath, null);
     fixedLengthFileRepository.save(fixedLengthFile);

@@ -19,19 +19,29 @@ public class LocalStorageService implements StorageService {
 
   private static final String BASE_PATH = "src\\main\\java\\com\\revature\\project\\files";
 
-  // https://spring.io/guides/gs/uploading-files
-  @Override
-  public String store(MultipartFile file) {
-    return store(file, "");
+  public enum Folder {
+    FLATFILE, SPECIFICATION
   }
 
+  // https://spring.io/guides/gs/uploading-files
   @Override
-  public String store(MultipartFile file, String folderName) {
-    String str1 = "";
-    if (folderName != null && folderName.length() > 0) {
-      str1 += "\\" + folderName;
+  public String store(MultipartFile file, Folder folderName) {
+    Path location = null;
+    switch (folderName) {
+      case FLATFILE:
+        location = Paths.get(BASE_PATH, "flatfile");
+        break;
+      case SPECIFICATION:
+        location = Paths.get(BASE_PATH, "specification");
+        break;
+      default:
+        assert (false);
+        break;
     }
-    Path baseLocation = Paths.get(BASE_PATH + str1);
+    return storeAt(location, file);
+  }
+
+  private String storeAt(Path baseLocation, MultipartFile file) {
     Path destinationFile = baseLocation
         .resolve(Paths.get(file.getOriginalFilename())).normalize()
         .toAbsolutePath();

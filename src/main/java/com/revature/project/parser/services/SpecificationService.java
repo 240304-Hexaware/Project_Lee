@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.project.parser.exceptions.ItemNotFoundException;
 import com.revature.project.parser.models.Specification;
 import com.revature.project.parser.models.User;
 import com.revature.project.parser.repositories.SpecificationRepository;
+import com.revature.project.parser.services.LocalStorageService.Folder;
 
 @Service
 public class SpecificationService {
@@ -42,7 +45,7 @@ public class SpecificationService {
       specification.setUserId(foundUserId);
       specification.setSpecs(parsedMap);
       specificationRepository.save(specification);
-      localStorageService.store(file, "specification");
+      localStorageService.store(file, Folder.SPECIFICATION);
       return specification;
     } catch (IOException e) {
       e.printStackTrace();
@@ -58,8 +61,12 @@ public class SpecificationService {
     return specificationRepository.findAllByUserId(found.getId().toHexString());
   }
 
-  public Specification findById(String id) {
-    return specificationRepository.findById(new ObjectId(id)).get();
+  public Specification findById(String id) throws ItemNotFoundException {
+    Optional<Specification> found = specificationRepository.findById(new ObjectId(id));
+    if (found.isEmpty()) {
+      throw new ItemNotFoundException("No such specification file");
+    }
+    return found.get();
   }
 
 }

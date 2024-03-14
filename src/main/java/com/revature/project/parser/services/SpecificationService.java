@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.project.parser.exceptions.ItemNotFoundException;
+import com.revature.project.parser.exceptions.UserNotFoundException;
 import com.revature.project.parser.models.Specification;
 import com.revature.project.parser.models.User;
 import com.revature.project.parser.repositories.SpecificationRepository;
@@ -35,15 +36,12 @@ public class SpecificationService {
     this.objectMapper = objectMapper;
   }
 
-  public Specification store(MultipartFile file, String username) {
+  public Specification store(MultipartFile file, String userId) {
     try {
       Map<String, com.revature.project.parser.models.Field> parsedMap = objectMapper.readValue(file.getInputStream(),
           new TypeReference<Map<String, com.revature.project.parser.models.Field>>() {
           });
-      Specification specification = new Specification();
-      String foundUserId = userService.findHexIdByUsername(username);
-      specification.setUserId(foundUserId);
-      specification.setSpecs(parsedMap);
+      Specification specification = new Specification(userId, parsedMap);
       specificationRepository.save(specification);
       localStorageService.store(file, Folder.SPECIFICATION);
       return specification;
@@ -53,8 +51,8 @@ public class SpecificationService {
     return null;
   }
 
-  public List<Specification> findAll(String username) {
-    User found = userService.findByUsername(username);
+  public List<Specification> findAllByUserId(String userId) throws UserNotFoundException {
+    User found = userService.findByUserId(userId);
     if (found == null) {
       return Arrays.asList();
     }

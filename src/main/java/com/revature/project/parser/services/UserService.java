@@ -3,6 +3,7 @@ package com.revature.project.parser.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import com.revature.project.parser.exceptions.UserNotFoundException;
@@ -42,28 +43,36 @@ public class UserService {
     return null;
   }
 
-  public User promoteUser(String username) throws UserNotFoundException {
-    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+  public User promoteUser(String userId) throws UserNotFoundException {
+    User found = findByUserId(userId);
     found.setIsAdmin(true);
     return userRepository.save(found);
   }
 
-  public User demoteUser(String username) throws UserNotFoundException {
-    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+  public User demoteUser(String userId) throws UserNotFoundException {
+    User found = findByUserId(userId);
     found.setIsAdmin(false);
     return userRepository.save(found);
   }
 
-  public User disableUser(String username) throws UserNotFoundException {
-    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+  public User disableUser(String userId) throws UserNotFoundException {
+    User found = findByUserId(userId);
     found.setIsDisabled(true);
     return userRepository.save(found);
   }
 
-  public User enableUser(String username) throws UserNotFoundException {
-    User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+  public User enableUser(String userId) throws UserNotFoundException {
+    User found = findByUserId(userId);
     found.setIsDisabled(false);
     return userRepository.save(found);
+  }
+
+  public User findByUserId(String userId) throws UserNotFoundException {
+    Optional<User> found = userRepository.findById(new ObjectId(userId));
+    if (found.isEmpty()) {
+      throw new UserNotFoundException(userId);
+    }
+    return found.get();
   }
 
 }

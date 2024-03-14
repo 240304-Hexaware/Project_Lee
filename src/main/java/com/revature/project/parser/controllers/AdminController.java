@@ -3,8 +3,8 @@ package com.revature.project.parser.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,28 +22,28 @@ public class AdminController {
     this.userService = userService;
   }
 
-  @PatchMapping("/promote")
+  @PatchMapping("/promote/{userId}")
   @ResponseStatus(HttpStatus.OK)
-  public User promoteUser(@RequestParam("username") String username) throws UserNotFoundException {
-    return userService.promoteUser(username);
+  public User promoteUser(@PathVariable("userId") String userId) throws UserNotFoundException {
+    return userService.promoteUser(userId);
   }
 
-  @PatchMapping("/demote")
+  @PatchMapping("/demote/{userId}")
   @ResponseStatus(HttpStatus.OK)
-  public User demoteUser(@RequestParam("username") String username) throws UserNotFoundException {
-    return userService.demoteUser(username);
+  public User demoteUser(@PathVariable("userId") String userId) throws UserNotFoundException {
+    return userService.demoteUser(userId);
   }
 
-  @PatchMapping("/disable")
+  @PatchMapping("/disable/{userId}")
   @ResponseStatus(HttpStatus.OK)
-  public User disableUser(@RequestParam("username") String username) throws UserNotFoundException {
-    return userService.disableUser(username);
+  public User disableUser(@PathVariable("userId") String userId) throws UserNotFoundException {
+    return userService.disableUser(userId);
   }
 
-  @PatchMapping("/enable")
+  @PatchMapping("/enable{userId}")
   @ResponseStatus(HttpStatus.OK)
-  public User enableUser(@RequestParam("username") String username) throws UserNotFoundException {
-    return userService.enableUser(username);
+  public User enableUser(@PathVariable("userId") String userId) throws UserNotFoundException {
+    return userService.enableUser(userId);
   }
 
   // TODO: Delete archived files

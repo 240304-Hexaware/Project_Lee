@@ -28,7 +28,7 @@ public class TaskController {
   @ResponseStatus(HttpStatus.OK)
   public ParsedRecord process(@RequestBody TaskRequest taskRequest)
       throws IOException, ItemNotFoundException, UserNotFoundException {
-    return parsedRecordService.process(taskRequest.username(), taskRequest.rawFileId(), taskRequest.specId());
+    return parsedRecordService.process(taskRequest.userId(), taskRequest.rawFileId(), taskRequest.specId());
   }
 
   @ExceptionHandler(ItemNotFoundException.class)

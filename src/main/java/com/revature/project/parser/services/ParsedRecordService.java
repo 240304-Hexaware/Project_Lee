@@ -36,9 +36,9 @@ public class ParsedRecordService {
     this.fileMetadataService = fileMetadataService;
   }
 
-  public ParsedRecord process(String username, String rawFileId, String specId)
+  public ParsedRecord process(String userId, String rawFileId, String specId)
       throws IOException, ItemNotFoundException, UserNotFoundException {
-    String userId = getValidUserId(username);
+    validateUserId(userId);
     FixedLengthFile rawFile = getValidFixedLengthFile(rawFileId);
     Specification spec = getValidSpecification(specId);
 
@@ -51,12 +51,10 @@ public class ParsedRecordService {
     return saved;
   }
 
-  private String getValidUserId(String username) throws UserNotFoundException {
-    String userId = userService.findHexIdByUsername(username);
-    if (userId == null) {
-      throw new UserNotFoundException("User not found: " + username);
+  private void validateUserId(String userId) throws UserNotFoundException {
+    if (userService.findByUserId(userId) == null) {
+      throw new UserNotFoundException("User not found: " + userId);
     }
-    return userId;
   }
 
   private FixedLengthFile getValidFixedLengthFile(String rawFileId) throws ItemNotFoundException {

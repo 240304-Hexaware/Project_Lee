@@ -15,19 +15,15 @@ import com.revature.project.parser.services.LocalStorageService.Folder;
 public class FixedLengthFileService {
 
   private final FixedLengthFileRepository fixedLengthFileRepository;
-  private final UserService userService;
   private final StorageService storageService;
 
-  public FixedLengthFileService(FixedLengthFileRepository fixedLengthFileRepository, UserService userService,
-      StorageService storageService) {
+  public FixedLengthFileService(FixedLengthFileRepository fixedLengthFileRepository, StorageService storageService) {
     this.fixedLengthFileRepository = fixedLengthFileRepository;
-    this.userService = userService;
     this.storageService = storageService;
   }
 
-  public void store(MultipartFile file, String username) {
+  public void store(MultipartFile file, String userId) {
     String filePath = storageService.store(file, Folder.FLATFILE);
-    String userId = userService.findHexIdByUsername(username);
     FixedLengthFile fixedLengthFile = new FixedLengthFile(file.getOriginalFilename(), userId, filePath, null);
     fixedLengthFileRepository.save(fixedLengthFile);
   }

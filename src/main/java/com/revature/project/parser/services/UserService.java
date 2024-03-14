@@ -44,7 +44,6 @@ public class UserService {
 
   public User promoteUser(String username) throws UserNotFoundException {
     User found = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
-    System.out.println(found.getIsDisabled());
     found.setIsAdmin(true);
     return userRepository.save(found);
   }

@@ -2,7 +2,9 @@ package com.revature.project.parser.controllers;
 
 import javax.security.auth.login.CredentialException;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +17,10 @@ import com.revature.project.parser.payload.request.LoginRequest;
 import com.revature.project.parser.payload.request.RegistrationRequest;
 import com.revature.project.parser.payload.response.LoginResponse;
 import com.revature.project.parser.services.UserService;
+import com.revature.project.parser.utils.JwtTokenUtil;
 import com.revature.project.parser.utils.PasswordEncoderUtil;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,20 +28,29 @@ import jakarta.validation.Valid;
 public class AuthController {
 
   private final UserService userService;
+  private final JwtTokenUtil jwtTokenUtil;
 
-  public AuthController(UserService userService) {
+  public AuthController(UserService userService, JwtTokenUtil jwtTokenUtil) {
     this.userService = userService;
+    this.jwtTokenUtil = jwtTokenUtil;
   }
 
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
-  public LoginResponse authenticate(@RequestBody @Valid LoginRequest loginRequest) throws CredentialException {
+  public LoginResponse authenticate(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response)
+      throws CredentialException {
     User found = userService.findByUsername(loginRequest.username());
     if (found != null &&
         !found.getIsDisabled() &&
         PasswordEncoderUtil.matches(loginRequest.password(), found.getPassword())) {
-      // TODO: token
-      return new LoginResponse(found.getId().toHexString(), found.getUsername(), found.getIsAdmin(), null);
+      String createdJwt = jwtTokenUtil.createJwt(found);
+      ResponseCookie cookie = ResponseCookie.from(JwtTokenUtil.TOKEN_NAME, createdJwt)
+          .httpOnly(true)
+          .secure(true)
+          .path("/")
+          .build();
+      response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+      return new LoginResponse(found.getId().toHexString(), found.getUsername(), found.getIsAdmin());
     }
     throw new CredentialException("Invalid credentials");
   }

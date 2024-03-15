@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.project.parser.exceptions.InvalidJwtException;
 import com.revature.project.parser.exceptions.ItemNotFoundException;
 import com.revature.project.parser.exceptions.UserAleadyExistedException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
@@ -26,6 +27,12 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(CredentialException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public String credentialException(CredentialException e) {
+    return e.getMessage();
+  }
+
+  @ExceptionHandler(InvalidJwtException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public String invalidJwtException(InvalidJwtException e) {
     return e.getMessage();
   }
 

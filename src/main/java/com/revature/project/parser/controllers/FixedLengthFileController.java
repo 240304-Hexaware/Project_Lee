@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.revature.project.parser.exceptions.InvalidJwtException;
 import com.revature.project.parser.services.FixedLengthFileService;
 import com.revature.project.parser.utils.JwtTokenUtil;
 
@@ -27,7 +28,7 @@ public class FixedLengthFileController {
 
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
-  public void upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+  public void upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws InvalidJwtException {
     String userId = jwtTokenUtil.getUserIdFromRequest(request);
     fixedLengthFileService.store(file, userId);
   }

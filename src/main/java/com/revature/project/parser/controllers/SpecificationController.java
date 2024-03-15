@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.revature.project.parser.exceptions.InvalidJwtException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
 import com.revature.project.parser.models.Specification;
 import com.revature.project.parser.services.SpecificationService;
@@ -32,14 +33,15 @@ public class SpecificationController {
 
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
-  public Specification saveSpecifications(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+  public Specification saveSpecifications(@RequestParam("file") MultipartFile file, HttpServletRequest request)
+      throws InvalidJwtException {
     String userId = jwtTokenUtil.getUserIdFromRequest(request);
     return specificationService.store(file, userId);
   }
 
   @GetMapping("")
   @ResponseStatus(HttpStatus.OK)
-  public List<Specification> getAll(HttpServletRequest request) throws UserNotFoundException {
+  public List<Specification> getAll(HttpServletRequest request) throws UserNotFoundException, InvalidJwtException {
     String userId = jwtTokenUtil.getUserIdFromRequest(request);
     return specificationService.findAllByUserId(userId);
   }

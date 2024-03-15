@@ -1,5 +1,9 @@
 package com.revature.project.parser.payload.request;
 
-public record LoginRequest(String username, String password) {
+import jakarta.validation.constraints.NotNull;
+
+public record LoginRequest(
+    @NotNull String username,
+    @NotNull String password) {
 
 }

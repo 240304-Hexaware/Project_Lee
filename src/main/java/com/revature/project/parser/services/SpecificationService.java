@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.project.parser.exceptions.ItemNotFoundException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
+import com.revature.project.parser.models.Field;
 import com.revature.project.parser.models.Specification;
 import com.revature.project.parser.models.User;
 import com.revature.project.parser.repositories.SpecificationRepository;
@@ -37,9 +39,10 @@ public class SpecificationService {
   }
 
   public Specification store(MultipartFile file, String userId) {
+    Objects.requireNonNull(userId);
     try {
-      Map<String, com.revature.project.parser.models.Field> parsedMap = objectMapper.readValue(file.getInputStream(),
-          new TypeReference<Map<String, com.revature.project.parser.models.Field>>() {
+      Map<String, Field> parsedMap = objectMapper.readValue(file.getInputStream(),
+          new TypeReference<Map<String, Field>>() {
           });
       Specification specification = new Specification(userId, parsedMap);
       specificationRepository.save(specification);
@@ -59,8 +62,8 @@ public class SpecificationService {
     return specificationRepository.findAllByUserId(found.getId().toHexString());
   }
 
-  public Specification findById(String id) throws ItemNotFoundException {
-    Optional<Specification> found = specificationRepository.findById(new ObjectId(id));
+  public Specification findById(String userId) throws ItemNotFoundException {
+    Optional<Specification> found = specificationRepository.findById(new ObjectId(userId));
     if (found.isEmpty()) {
       throw new ItemNotFoundException("No such specification file");
     }

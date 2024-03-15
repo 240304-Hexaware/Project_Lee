@@ -1,5 +1,10 @@
 package com.revature.project.parser.payload.request;
 
-public record TaskRequest(String userId, String rawFileId, String specId) {
+import jakarta.validation.constraints.NotNull;
+
+public record TaskRequest(
+    @NotNull String userId,
+    @NotNull String rawFileId,
+    @NotNull String specId) {
 
 }

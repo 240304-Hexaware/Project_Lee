@@ -1,5 +1,6 @@
 package com.revature.project.parser.services;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -23,6 +24,7 @@ public class FixedLengthFileService {
   }
 
   public void store(MultipartFile file, String userId) {
+    Objects.requireNonNull(userId);
     String filePath = storageService.store(file, Folder.FLATFILE);
     FixedLengthFile fixedLengthFile = new FixedLengthFile(file.getOriginalFilename(), userId, filePath, null);
     fixedLengthFileRepository.save(fixedLengthFile);

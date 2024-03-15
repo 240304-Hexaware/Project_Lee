@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,6 +59,7 @@ public class LocalStorageService implements StorageService {
 
   @Override
   public String readFileAsString(String filePath) throws IOException {
+    Objects.requireNonNull(filePath);
     FileInputStream stream = new FileInputStream(new File(filePath));
     StringBuilder builder = new StringBuilder();
     try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {

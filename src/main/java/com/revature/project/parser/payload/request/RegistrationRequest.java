@@ -1,5 +1,11 @@
 package com.revature.project.parser.payload.request;
 
-public record RegistrationRequest(String username, String password) {
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
+public record RegistrationRequest(
+        @NotNull String username,
+        @NotNull @Min(3) String password,
+        @NotNull @Min(3) String confirmationPassword) {
 
 }

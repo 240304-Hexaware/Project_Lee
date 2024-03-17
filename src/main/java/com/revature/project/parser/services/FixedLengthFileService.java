@@ -38,4 +38,8 @@ public class FixedLengthFileService {
     return found.get();
   }
 
+  public FixedLengthFile save(FixedLengthFile fixedlengthFile) {
+    return fixedLengthFileRepository.save(fixedlengthFile);
+  }
+
 }

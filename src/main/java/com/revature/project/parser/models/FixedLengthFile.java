@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import jakarta.validation.constraints.NotNull;
+
 @Document(collection = "fixedLengthFiles")
 public class FixedLengthFile {
 
@@ -40,6 +42,10 @@ public class FixedLengthFile {
     this.userId = userId;
     this.filePath = filePath;
     this.metaDataId = metaDataId;
+  }
+
+  public FixedLengthFile(@NotNull FixedLengthFile oldFile, @NotNull String metadataId) {
+    this(oldFile.getId(), oldFile.getFileName(), oldFile.getUserId(), oldFile.getFilePath(), metadataId);
   }
 
   public ObjectId getId() {

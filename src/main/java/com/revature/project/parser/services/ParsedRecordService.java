@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bson.Document;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.project.parser.exceptions.ItemNotFoundException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
@@ -36,19 +37,44 @@ public class ParsedRecordService {
     this.fileMetadataService = fileMetadataService;
   }
 
+  @Transactional
   public ParsedRecord process(String userId, String rawFileId, String specId)
       throws IOException, ItemNotFoundException, UserNotFoundException {
     validateUserId(userId);
-    FixedLengthFile rawFile = getValidFixedLengthFile(rawFileId);
-    Specification spec = getValidSpecification(specId);
+    FixedLengthFile rawFile = fixedLengthFileService.findById(rawFileId);
+    Specification spec = specificationService.findById(specId);
 
+    Map<String, String> parsedData = getParsedData(rawFile, spec);
+
+    // store parsed record with metadataId being null to get an ID of the parsed
+    // data
+    ParsedRecord initialRecord = createParsedRecord(userId, parsedData); // without metadataId
+
+    FileMetadata createdMetadata = fileMetadataService.create(rawFileId, initialRecord.getId().toHexString(), specId);
+
+    // update fixed-length file and parsed record with created metadata
+    FixedLengthFile updatedFixedLengthFile = updateFixedLengthFileWithMetadata(rawFile, createdMetadata);
+    fixedLengthFileService.save(updatedFixedLengthFile);
+
+    ParsedRecord updatedRecord = updateRecordWithMetadata(initialRecord, createdMetadata);
+    return parsedRecordRepository.save(updatedRecord);
+  }
+
+  private Map<String, String> getParsedData(FixedLengthFile rawFile, Specification spec) throws IOException {
     String rawData = localStorageService.readFileAsString(rawFile.getFilePath());
-    Map<String, String> parsed = FileParser.readStringFields(rawData, spec.getSpecs());
-    ParsedRecord parsedRecord = new ParsedRecord(userId, null, new Document(parsed));
-    ParsedRecord saved = parsedRecordRepository.save(parsedRecord);
-    FileMetadata createdMetadata = fileMetadataService.create(rawFileId, saved.getId().toHexString(), specId);
-    parsedRecord.setMetadataId(createdMetadata.getId().toHexString());
-    return saved;
+    return FileParser.readStringFields(rawData, spec.getSpecs());
+  }
+
+  private ParsedRecord createParsedRecord(String userId, Map<String, String> parsedData) {
+    return parsedRecordRepository.save(new ParsedRecord(userId, null, new Document(parsedData)));
+  }
+
+  private FixedLengthFile updateFixedLengthFileWithMetadata(FixedLengthFile oldFile, FileMetadata createdMetadata) {
+    return new FixedLengthFile(oldFile, createdMetadata.getId().toHexString());
+  }
+
+  private ParsedRecord updateRecordWithMetadata(ParsedRecord initialRecord, FileMetadata createdMetadata) {
+    return new ParsedRecord(initialRecord, createdMetadata.getId().toHexString());
   }
 
   private void validateUserId(String userId) throws UserNotFoundException {
@@ -57,19 +83,4 @@ public class ParsedRecordService {
     }
   }
 
-  private FixedLengthFile getValidFixedLengthFile(String rawFileId) throws ItemNotFoundException {
-    FixedLengthFile rawFile = fixedLengthFileService.findById(rawFileId);
-    if (rawFile == null) {
-      throw new ItemNotFoundException("Fixed-length file not found");
-    }
-    return rawFile;
-  }
-
-  private Specification getValidSpecification(String specId) throws ItemNotFoundException {
-    Specification spec = specificationService.findById(specId);
-    if (spec == null) {
-      throw new ItemNotFoundException("Specification not found");
-    }
-    return spec;
-  }
 }

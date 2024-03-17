@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import jakarta.validation.constraints.NotNull;
+
 @Document("parsedRecords")
 public class ParsedRecord {
 
@@ -35,6 +37,10 @@ public class ParsedRecord {
     this.userId = userId;
     this.metadataId = metadataId;
     this.parsedData = parsedData;
+  }
+
+  public ParsedRecord(@NotNull ParsedRecord oldRecord, @NotNull String metadataId) {
+    this(oldRecord.getId(), oldRecord.getUserId(), metadataId, oldRecord.getParsedData());
   }
 
   public ObjectId getId() {

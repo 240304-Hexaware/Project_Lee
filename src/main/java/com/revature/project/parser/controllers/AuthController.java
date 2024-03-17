@@ -40,9 +40,13 @@ public class AuthController {
   public LoginResponse authenticate(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response)
       throws CredentialException {
     User found = userService.findByUsername(loginRequest.username());
-    if (found != null &&
-        !found.getIsDisabled() &&
-        PasswordEncoderUtil.matches(loginRequest.password(), found.getPassword())) {
+    if (found == null) {
+      throw new CredentialException("Invalid credentials");
+    }
+    if (found.getIsDisabled().booleanValue()) {
+      throw new CredentialException("The user has been banned");
+    }
+    if (PasswordEncoderUtil.matches(loginRequest.password(), found.getPassword())) {
       String createdJwt = jwtTokenUtil.createJwt(found);
       ResponseCookie cookie = ResponseCookie.from(JwtTokenUtil.TOKEN_NAME, createdJwt)
           .httpOnly(true)

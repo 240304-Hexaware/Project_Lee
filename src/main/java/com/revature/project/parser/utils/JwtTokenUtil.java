@@ -44,32 +44,29 @@ public class JwtTokenUtil {
   }
 
   private String resolveToken(HttpServletRequest request) throws InvalidJwtException {
-    String token = null;
     for (Cookie cookie : request.getCookies()) {
       if (cookie.getName().equals(TOKEN_NAME)) {
-        token = cookie.getValue();
+        return cookie.getValue();
       }
     }
-    if (token == null) {
-      throw new InvalidJwtException();
-    }
-    return token;
+    throw new InvalidJwtException();
   }
 
   private String extractUserId(String token) {
-    Jws<Claims> claims = Jwts.parserBuilder()
-        .setSigningKey(secretKey.getBytes())
-        .build()
-        .parseClaimsJws(token);
+    Jws<Claims> claims = getClaims(token);
 
     return claims.getBody().get("userId").toString();
   }
 
-  private boolean extractIsAdmin(String token) {
-    Jws<Claims> claims = Jwts.parserBuilder()
+  private Jws<Claims> getClaims(String token) {
+    return Jwts.parserBuilder()
         .setSigningKey(secretKey.getBytes())
         .build()
         .parseClaimsJws(token);
+  }
+
+  private boolean extractIsAdmin(String token) {
+    Jws<Claims> claims = getClaims(token);
 
     return (boolean) claims.getBody().get("isAdmin");
   }

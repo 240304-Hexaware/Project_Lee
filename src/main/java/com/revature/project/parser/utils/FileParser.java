@@ -2,7 +2,6 @@ package com.revature.project.parser.utils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import com.revature.project.parser.models.Field;
 
@@ -16,11 +15,10 @@ public class FileParser {
   public static Map<String, String> readStringFields(String data, Map<String, Field> spec) {
     Map<String, String> resultMap = new HashMap<>();
 
-    Set<String> fields = spec.keySet();
-    for (String fieldName : fields) {
-      Field field = spec.get(fieldName);
+    for (Map.Entry<String, Field> entry : spec.entrySet()) {
+      Field field = spec.get(entry.getKey());
       String fieldValue = data.substring(field.getStartPos(), field.getEndPos() + 1).trim();
-      resultMap.put(fieldName, fieldValue);
+      resultMap.put(entry.getKey(), fieldValue);
     }
     return resultMap;
   }

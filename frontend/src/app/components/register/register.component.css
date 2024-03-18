@@ -1,0 +1,11 @@
+.register-container {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

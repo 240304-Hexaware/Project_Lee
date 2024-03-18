@@ -41,10 +41,7 @@ public class SpecificationService {
   public Specification store(MultipartFile file, String userId) {
     Objects.requireNonNull(userId);
     try {
-      Map<String, Field> parsedMap = objectMapper.readValue(file.getInputStream(),
-          new TypeReference<Map<String, Field>>() {
-          });
-      Specification specification = new Specification(userId, parsedMap);
+      Specification specification = getSpecification(file, userId);
       specificationRepository.save(specification);
       localStorageService.store(file, Folder.SPECIFICATION);
       return specification;
@@ -52,6 +49,13 @@ public class SpecificationService {
       e.printStackTrace();
     }
     return null;
+  }
+
+  private Specification getSpecification(MultipartFile file, String userId) throws IOException {
+    Map<String, Field> parsedMap = objectMapper.readValue(file.getInputStream(),
+        new TypeReference<Map<String, Field>>() {
+        });
+    return new Specification(userId, parsedMap);
   }
 
   public List<Specification> findAllByUserId(String userId) throws UserNotFoundException {

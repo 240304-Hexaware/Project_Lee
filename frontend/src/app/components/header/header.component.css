@@ -1,0 +1,12 @@
+header {
+  display: flex;
+  align-items: center;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-right: auto;
+  margin-left: 10px;
+}

@@ -1,36 +1,35 @@
 <div class="register-container">
-  <form
-    (ngSubmit)="
-      register(username.value, password.value, confirmationPassword.value)
-    "
-  >
+  <form (ngSubmit)="register()">
     <label for="username">Username</label>
     <input
       type="text"
       id="username"
-      placeholder="username"
-      #username
+      [(ngModel)]="this.username"
+      name="username"
       required
     />
-    <button>Check</button>
-    <label for="password1">Password</label>
+
+    <label for="password">Password</label>
     <input
       type="password"
-      id="password1"
-      placeholder="password"
-      #password
+      id="password"
+      [(ngModel)]="this.password"
+      name="password"
       required
+      minlength="3"
     />
-    <label for="password2">Confirm Password</label>
+
+    <label for="confirmPassword">Confirm Password</label>
     <input
       type="password"
-      id="password2"
-      placeholder="password"
-      #confirmationPassword
+      id="confirmPassword"
+      [(ngModel)]="this.confirmPassword"
+      name="confirmPassword"
       required
+      minlength="3"
     />
+
     <button type="submit">Register</button>
   </form>
+  <div *ngIf="error">{{ error }}</div>
 </div>
-
-<router-outlet></router-outlet>

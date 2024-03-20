@@ -33,7 +33,7 @@ public class FixedLengthFileService {
   public FixedLengthFile findById(String rawFileId) throws ItemNotFoundException {
     Optional<FixedLengthFile> found = fixedLengthFileRepository.findById(new ObjectId(rawFileId));
     if (found.isEmpty()) {
-      throw new ItemNotFoundException("No flat file exists");
+      throw new ItemNotFoundException("No flat file found");
     }
     return found.get();
   }

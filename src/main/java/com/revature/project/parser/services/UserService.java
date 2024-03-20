@@ -70,7 +70,7 @@ public class UserService {
   public User findByUserId(String userId) throws UserNotFoundException {
     Optional<User> found = userRepository.findById(new ObjectId(userId));
     if (found.isEmpty()) {
-      throw new UserNotFoundException(userId);
+      throw new UserNotFoundException("No user found");
     }
     return found.get();
   }

@@ -79,7 +79,7 @@ public class ParsedRecordService {
 
   private void validateUserId(String userId) throws UserNotFoundException {
     if (userService.findByUserId(userId) == null) {
-      throw new UserNotFoundException("User not found: " + userId);
+      throw new UserNotFoundException("No user found");
     }
   }
 

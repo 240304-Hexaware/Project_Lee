@@ -62,7 +62,7 @@ public class AdminController {
 
   private void validateAuthorization(HttpServletRequest request) throws InvalidJwtException, UnauthorizedException {
     if (!jwtTokenUtil.isAdmin(request)) {
-      throw new UnauthorizedException("unauthorized");
+      throw new UnauthorizedException("The current user is not authorized");
     }
   }
 

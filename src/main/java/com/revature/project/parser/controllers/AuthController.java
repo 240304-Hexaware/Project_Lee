@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.project.parser.exceptions.UserAleadyExistedException;
+import com.revature.project.parser.exceptions.UserAleadyExistsException;
 import com.revature.project.parser.models.User;
 import com.revature.project.parser.payload.request.LoginRequest;
 import com.revature.project.parser.payload.request.RegistrationRequest;
@@ -41,7 +41,7 @@ public class AuthController {
       throws CredentialException {
     User found = userService.findByUsername(loginRequest.username());
     if (found == null) {
-      throw new CredentialException("Invalid credentials");
+      throw new CredentialException("Invalid username or password");
     }
     if (found.getIsDisabled().booleanValue()) {
       throw new CredentialException("The user has been banned");
@@ -56,16 +56,16 @@ public class AuthController {
       response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
       return new LoginResponse(found.getId().toHexString(), found.getUsername(), found.getIsAdmin());
     }
-    throw new CredentialException("Invalid credentials");
+    throw new CredentialException("Invalid username or password");
   }
 
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.OK)
-  public User register(@RequestBody @Valid RegistrationRequest registrationRequest) throws UserAleadyExistedException {
+  public User register(@RequestBody @Valid RegistrationRequest registrationRequest) throws UserAleadyExistsException {
     User requestedUser = new User(registrationRequest.username(),
         PasswordEncoderUtil.encodePassword(registrationRequest.password()));
     if (userService.findByUsername(registrationRequest.username()) != null) {
-      throw new UserAleadyExistedException();
+      throw new UserAleadyExistsException();
     }
 
     return userService.saveUser(requestedUser);

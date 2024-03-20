@@ -69,7 +69,7 @@ public class SpecificationService {
   public Specification findById(String userId) throws ItemNotFoundException {
     Optional<Specification> found = specificationRepository.findById(new ObjectId(userId));
     if (found.isEmpty()) {
-      throw new ItemNotFoundException("No such specification file");
+      throw new ItemNotFoundException("No specification file found");
     }
     return found.get();
   }

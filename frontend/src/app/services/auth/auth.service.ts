@@ -4,7 +4,7 @@ import { catchError, map, throwError } from 'rxjs';
 import {
   ErrorResponse,
   RegisterRequestParams,
-  RegsiterResponse,
+  RegisterResponse,
   User,
 } from '../../utils/types';
 
@@ -13,6 +13,8 @@ import {
 })
 export class AuthService {
   baseUrl: string = 'http://localhost:8080';
+
+  isLoggedIn: boolean = false;
 
   private CURRENT_USER: string = 'currentUser';
 
@@ -34,6 +36,7 @@ export class AuthService {
         map((user) => {
           console.log('user', user);
           localStorage.setItem(this.CURRENT_USER, JSON.stringify(user));
+          this.isLoggedIn = true;
           return user;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -48,7 +51,7 @@ export class AuthService {
 
   register({ username, password, confirmPassword }: RegisterRequestParams) {
     return this.http
-      .post<RegsiterResponse>(`${this.baseUrl}/users/register`, {
+      .post<RegisterResponse>(`${this.baseUrl}/users/register`, {
         username,
         password,
         confirmPassword,
@@ -64,8 +67,17 @@ export class AuthService {
       );
   }
 
+  getCurrentUserUsername(): string {
+    const currentUser = localStorage.getItem(this.CURRENT_USER);
+    if (currentUser == null) {
+      return '';
+    }
+    return (JSON.parse(currentUser) as User).username;
+  }
+
   logout() {
     localStorage.removeItem(this.CURRENT_USER);
     // TODO: send something to server to invalidate token
+    this.isLoggedIn = false;
   }
 }

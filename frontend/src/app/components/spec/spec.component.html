@@ -1,7 +1,9 @@
-<h1>Upload file</h1>
-<input type="file" (change)="handleFileInput($event)" />
-<button type="button" (click)="upload()">Upload</button>
-<div class="status">{{ status }}</div>
-<div *ngFor="let file of files">
-  <div>{{ file.id }}</div>
+<div class="spec-upload-container">
+  <h1>Upload file</h1>
+  <input type="file" (change)="handleFileInput($event)" />
+  <button type="button" (click)="upload()">Upload</button>
+  <div class="status">{{ status }}</div>
 </div>
+<hr />
+
+<app-spec-history [specData]="specDataUploaded"></app-spec-history>

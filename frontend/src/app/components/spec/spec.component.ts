@@ -2,30 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SpecFileService } from '../../services/upload/spec-file.service';
 import { Specification } from '../../utils/types';
+import { SpecHistoryComponent } from './spec-history/spec-history.component';
 
 @Component({
   selector: 'app-spec',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './spec.component.html',
   styleUrl: './spec.component.css',
+  imports: [CommonModule, SpecHistoryComponent],
 })
 export class SpecComponent {
   status: string = '';
 
-  fileToUpload: File | null = null;
+  fileToUpload?: File;
 
-  files: Specification[] = [];
+  specDataUploaded?: Specification;
 
-  // FIXME: retreived specification from server doesn't have correct id
-  constructor(private specFileService: SpecFileService) {
-    specFileService.getAllSpecs().subscribe({
-      next: (data) => {
-        this.files = data;
-        console.log('this.files', this.files);
-      },
-    });
-  }
+  constructor(private specFileService: SpecFileService) {}
 
   handleFileInput(event: any) {
     this.fileToUpload = event.target.files[0];
@@ -33,21 +26,26 @@ export class SpecComponent {
 
   upload() {
     if (this.fileToUpload == null) {
-      this.status = 'Select file to upload';
+      this.updateStatus('select file to upload');
       return;
     }
     this.specFileService.uploadSpec(this.fileToUpload).subscribe({
       next: (data) => {
-        this.files.push(data);
-        this.status = 'success';
+        this.specDataUploaded = data;
+        this.updateStatus('succeed to upload');
+        this.fileToUpload = undefined;
       },
       error: (error) => {
         if (error instanceof Error) {
-          this.status = error.message;
+          this.updateStatus(error.message);
         } else {
-          this.status = 'failed';
+          this.updateStatus('failed to upload');
         }
       },
     });
+  }
+
+  private updateStatus(msg: string): void {
+    this.status = msg;
   }
 }

@@ -23,8 +23,7 @@ export class LoginComponent {
         this.router.navigate(['/main']);
       },
       error: (err: ErrorResponse) => {
-        this.error =
-          err.details.join('\n') ?? 'Something went wrong! Try again.';
+        this.error = err.title ?? 'Something went wrong! Try again.';
         console.error(err);
       },
     });

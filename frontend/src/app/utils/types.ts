@@ -4,12 +4,17 @@ export type User = {
   isAdmin: boolean;
 };
 
-export type Specification = {
-  id: string;
-  userid: string;
+export type Field = {
+  [key: string]: string | number;
 };
 
-export type RegsiterResponse = {};
+export type Specification = {
+  id: string;
+  userId: string;
+  specs: Field[];
+};
+
+export type RegisterResponse = {};
 
 export type RegisterRequestParams = {
   username: string;

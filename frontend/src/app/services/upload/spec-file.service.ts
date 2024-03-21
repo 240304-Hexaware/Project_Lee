@@ -19,7 +19,6 @@ export class SpecFileService {
       })
       .pipe(
         map((data) => {
-          console.log('data', data);
           return data;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -34,12 +33,11 @@ export class SpecFileService {
 
   getAllSpecs() {
     return this.http
-      .get<[Specification]>(`${this.baseUrl}/specs`, {
+      .get<Specification[]>(`${this.baseUrl}/specs`, {
         withCredentials: true,
       })
       .pipe(
         map((data) => {
-          console.log('data', data);
           return data;
         }),
         catchError((error: HttpErrorResponse) => {

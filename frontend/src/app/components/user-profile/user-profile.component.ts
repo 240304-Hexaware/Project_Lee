@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -11,11 +12,15 @@ import { AuthService } from '../../services/auth/auth.service';
 export class UserProfileComponent {
   public username: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {
+    // FIXME: after a successful logout, username is not cleared
+    this.username = this.authService.getCurrentUserUsername();
+  }
 
   // TODO: it only shows up when user is logged in
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

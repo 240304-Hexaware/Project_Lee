@@ -1,0 +1,17 @@
+<div class="spec-files-container">
+  <ul>
+    <li *ngFor="let file of files" class="spec-files">
+      <button type="button" (click)="handleClickSpec(file.id)">
+        {{ extractDate(file.id) | date }},
+        {{ extractTime(file.id) | date : "mediumTime" }}
+      </button>
+    </li>
+  </ul>
+
+  <textarea
+    cols="30"
+    rows="10"
+    [value]="selectedSpecDetail ?? 'Click spec file to see'"
+    disabled
+  ></textarea>
+</div>

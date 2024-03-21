@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.project.parser.exceptions.InvalidJwtException;
 import com.revature.project.parser.exceptions.ItemNotFoundException;
-import com.revature.project.parser.exceptions.UserAleadyExistsException;
+import com.revature.project.parser.exceptions.UserAlreadyExistsException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
 
 @ControllerAdvice
@@ -39,9 +39,9 @@ public class GlobalExceptionHandler {
     return new ApiError(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), null);
   }
 
-  @ExceptionHandler(UserAleadyExistsException.class)
+  @ExceptionHandler(UserAlreadyExistsException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
-  public ApiError handleUserAleadyExists(UserAleadyExistsException e) {
+  public ApiError handleUserAleadyExists(UserAlreadyExistsException e) {
     return new ApiError(HttpStatus.CONFLICT.value(), e.getMessage(), null);
   }
 

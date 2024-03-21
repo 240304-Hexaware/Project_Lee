@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.project.parser.exceptions.UserAleadyExistsException;
+import com.revature.project.parser.exceptions.UserAlreadyExistsException;
 import com.revature.project.parser.models.User;
 import com.revature.project.parser.payload.request.LoginRequest;
 import com.revature.project.parser.payload.request.RegistrationRequest;
@@ -61,11 +61,11 @@ public class AuthController {
 
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.OK)
-  public User register(@RequestBody @Valid RegistrationRequest registrationRequest) throws UserAleadyExistsException {
+  public User register(@RequestBody @Valid RegistrationRequest registrationRequest) throws UserAlreadyExistsException {
     User requestedUser = new User(registrationRequest.username(),
         PasswordEncoderUtil.encodePassword(registrationRequest.password()));
     if (userService.findByUsername(registrationRequest.username()) != null) {
-      throw new UserAleadyExistsException();
+      throw new UserAlreadyExistsException();
     }
 
     return userService.saveUser(requestedUser);

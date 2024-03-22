@@ -8,10 +8,14 @@ import com.revature.project.parser.exceptions.InvalidJwtException;
 import com.revature.project.parser.models.User;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -52,21 +56,30 @@ public class JwtTokenUtil {
     throw new InvalidJwtException();
   }
 
-  private String extractUserId(String token) {
-    Jws<Claims> claims = getClaims(token);
+  private String extractUserId(String token) throws InvalidJwtException {
+    Jws<Claims> claims = verifyAndGetClaims(token);
 
     return claims.getBody().get("userId").toString();
   }
 
-  private Jws<Claims> getClaims(String token) {
-    return Jwts.parserBuilder()
-        .setSigningKey(secretKey.getBytes())
-        .build()
-        .parseClaimsJws(token);
+  private Jws<Claims> verifyAndGetClaims(String token) throws InvalidJwtException {
+    Jws<Claims> claims = null;
+
+    try {
+      claims = Jwts.parserBuilder()
+          .setSigningKey(secretKey.getBytes())
+          .build()
+          .parseClaimsJws(token);
+
+    } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
+      throw new InvalidJwtException();
+    }
+
+    return claims;
   }
 
-  private boolean extractIsAdmin(String token) {
-    Jws<Claims> claims = getClaims(token);
+  private boolean extractIsAdmin(String token) throws InvalidJwtException {
+    Jws<Claims> claims = verifyAndGetClaims(token);
 
     return (boolean) claims.getBody().get("isAdmin");
   }

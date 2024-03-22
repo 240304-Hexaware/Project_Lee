@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SpecFileService } from '../../services/upload/spec-file.service';
+import { SpecFileService } from '../../services/specfile/spec-file.service';
 import { Specification } from '../../utils/types';
 import { SpecHistoryComponent } from './spec-history/spec-history.component';
 

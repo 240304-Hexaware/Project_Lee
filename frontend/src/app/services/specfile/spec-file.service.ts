@@ -7,14 +7,14 @@ import { ErrorResponse, Specification } from '../../utils/types';
   providedIn: 'root',
 })
 export class SpecFileService {
-  private baseUrl: string = 'http://localhost:8080';
+  private baseUrl: string = 'http://localhost:8080/specs';
   constructor(private http: HttpClient) {}
 
   uploadSpec(file: File) {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.http
-      .post<Specification>(`${this.baseUrl}/specs`, formData, {
+      .post<Specification>(this.baseUrl, formData, {
         withCredentials: true,
       })
       .pipe(
@@ -33,7 +33,7 @@ export class SpecFileService {
 
   getAllSpecs() {
     return this.http
-      .get<Specification[]>(`${this.baseUrl}/specs`, {
+      .get<Specification[]>(this.baseUrl, {
         withCredentials: true,
       })
       .pipe(

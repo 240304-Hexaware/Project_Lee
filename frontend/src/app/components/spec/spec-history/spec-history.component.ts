@@ -1,6 +1,6 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { SpecFileService } from '../../../services/upload/spec-file.service';
+import { SpecFileService } from '../../../services/specfile/spec-file.service';
 import { Specification } from '../../../utils/types';
 
 @Component({
@@ -37,12 +37,6 @@ export class SpecHistoryComponent implements OnChanges {
   extractDate(id: string): string {
     const parsed = JSON.parse(JSON.stringify(id));
     return parsed['date'];
-  }
-
-  // FIXME: wrong time extracted
-  extractTime(id: string): string {
-    const parsed = JSON.parse(JSON.stringify(id));
-    return parsed['timestamp'];
   }
 
   handleClickSpec(id: string) {

@@ -1,9 +1,9 @@
+<h1>History</h1>
 <div class="spec-files-container">
   <ul>
     <li *ngFor="let file of files" class="spec-files">
       <button type="button" (click)="handleClickSpec(file.id)">
-        {{ extractDate(file.id) | date }},
-        {{ extractTime(file.id) | date : "mediumTime" }}
+        {{ extractDate(file.id) | date : "short" }}
       </button>
     </li>
   </ul>

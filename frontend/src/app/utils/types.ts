@@ -14,6 +14,13 @@ export type Specification = {
   specs: Field[];
 };
 
+export type FlatFile = {
+  id: string;
+  fileName: string;
+  userId: string;
+  metaDataId: string;
+};
+
 export type RegisterResponse = {};
 
 export type RegisterRequestParams = {

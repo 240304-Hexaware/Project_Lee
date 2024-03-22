@@ -1,5 +1,7 @@
 package com.revature.project.parser.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.revature.project.parser.exceptions.ItemNotFoundException;
+import com.revature.project.parser.exceptions.UserNotFoundException;
 import com.revature.project.parser.models.FixedLengthFile;
+import com.revature.project.parser.models.User;
 import com.revature.project.parser.repositories.FixedLengthFileRepository;
 import com.revature.project.parser.services.LocalStorageService.Folder;
 
@@ -17,10 +21,13 @@ public class FixedLengthFileService {
 
   private final FixedLengthFileRepository fixedLengthFileRepository;
   private final StorageService storageService;
+  private final UserService userService;
 
-  public FixedLengthFileService(FixedLengthFileRepository fixedLengthFileRepository, StorageService storageService) {
+  public FixedLengthFileService(FixedLengthFileRepository fixedLengthFileRepository, StorageService storageService,
+      UserService userService) {
     this.fixedLengthFileRepository = fixedLengthFileRepository;
     this.storageService = storageService;
+    this.userService = userService;
   }
 
   public void store(MultipartFile file, String userId) {
@@ -40,6 +47,14 @@ public class FixedLengthFileService {
 
   public FixedLengthFile save(FixedLengthFile fixedlengthFile) {
     return fixedLengthFileRepository.save(fixedlengthFile);
+  }
+
+  public List<FixedLengthFile> findAllByUserId(String userId) throws UserNotFoundException {
+    User found = userService.findByUserId(userId);
+    if (found == null) {
+      return Arrays.asList();
+    }
+    return fixedLengthFileRepository.findAllByUserId(found.getId().toHexString());
   }
 
 }

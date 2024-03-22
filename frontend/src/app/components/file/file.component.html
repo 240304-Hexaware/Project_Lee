@@ -1,1 +1,11 @@
-<p>file works!</p>
+<div class="flatfile-upload-container">
+  <h1>Upload file</h1>
+  <input type="file" (change)="handleFileInput($event)" />
+  <button type="button" (click)="upload()">Upload</button>
+  <div class="status">{{ status }}</div>
+</div>
+<hr />
+
+<app-flat-file-history
+  [flatFileData]="flatFileDataUploaded"
+></app-flat-file-history>

@@ -1,0 +1,11 @@
+.flat-files button {
+  margin-bottom: 10px;
+  height: 30px;
+}
+
+.flat-files-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 10px;
+}

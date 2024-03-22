@@ -1,0 +1,17 @@
+<h1>History</h1>
+<div class="flat-files-container">
+  <ul>
+    <li *ngFor="let file of files" class="flat-files">
+      <button type="button" (click)="handleClickFlatFile(file.id)">
+        {{ extractDate(file.id) | date : "short" }}
+      </button>
+    </li>
+  </ul>
+
+  <textarea
+    cols="50"
+    rows="10"
+    [value]="selectedFlatFileDetail ?? 'Click flat file to see'"
+    disabled
+  ></textarea>
+</div>

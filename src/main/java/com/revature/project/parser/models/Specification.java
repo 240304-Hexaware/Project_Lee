@@ -7,11 +7,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 @Document(collection = "specifications")
 public class Specification {
 
   @Id
   @Field("_id")
+  @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
   @Field("user_id")

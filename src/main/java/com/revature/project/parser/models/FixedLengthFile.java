@@ -5,6 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "fixedLengthFiles")
@@ -12,6 +15,7 @@ public class FixedLengthFile {
 
   @Field("_id")
   @Id
+  @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
   @Field("name")

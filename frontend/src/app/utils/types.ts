@@ -34,3 +34,15 @@ export type ErrorResponse = {
   title: string;
   details: [string];
 };
+
+export type ParsingRequestParams = {
+  specId: string;
+  rawFileId: string;
+};
+
+export type ParsedData = {
+  id: string;
+  userId: string;
+  metadataId: string;
+  parsedData: string;
+};

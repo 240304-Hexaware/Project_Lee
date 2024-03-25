@@ -1,3 +1,23 @@
 .spec-upload-container {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.spec-upload.container h1 {
+  text-align: center;
+}
+
+.spec-upload-container input[type="file"] {
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.spec-upload-container button {
   margin: 10px;
+}
+
+.status {
+  font-weight: bold;
 }

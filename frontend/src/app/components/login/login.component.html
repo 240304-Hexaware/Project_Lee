@@ -20,7 +20,7 @@
     <button type="submit">Log In</button>
     <button type="button" [routerLink]="'/register'">Register</button>
   </form>
-  <pre *ngIf="error">{{ error }}</pre>
+  <pre class="error" *ngIf="error">{{ error }}</pre>
 </div>
 
 <router-outlet></router-outlet>

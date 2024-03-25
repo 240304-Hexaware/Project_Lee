@@ -3,7 +3,7 @@
   <ul>
     <li *ngFor="let file of files" class="spec-files">
       <button type="button" (click)="handleClickSpec(file.id)">
-        {{ extractDate(file.id) | date : "short" }}
+        {{ file.id }}
       </button>
     </li>
   </ul>

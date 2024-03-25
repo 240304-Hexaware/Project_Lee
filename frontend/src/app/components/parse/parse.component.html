@@ -1,1 +1,33 @@
-<p>parse works!</p>
+<div class="container">
+  <h2>Parse</h2>
+  <div class="selections">
+    <div class="dropdown">
+      <label for="specification">Specification File:</label>
+      <select id="specification" [(ngModel)]="selectedSpecId">
+        <option *ngFor="let spec of specifications" [value]="spec.id">
+          {{ spec.id }}
+        </option>
+      </select>
+    </div>
+
+    <div class="dropdown">
+      <label for="flatfile">Flat File:</label>
+      <select id="flatfile" [(ngModel)]="selectedFileId">
+        <option *ngFor="let file of flatFiles" [value]="file.id">
+          {{ file.fileName }}
+        </option>
+      </select>
+    </div>
+
+    <button (click)="parse()">Parse</button>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <span>{{ error }}</span>
+  </div>
+
+  <div class="result" *ngIf="parsingResult">
+    <h3>Result:</h3>
+    <pre>{{ parsingResult | json }}</pre>
+  </div>
+</div>

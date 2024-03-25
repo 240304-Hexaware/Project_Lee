@@ -1,5 +1,11 @@
 import { CommonModule, NgFor } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { SpecFileService } from '../../../services/specfile/spec-file.service';
 import { Specification } from '../../../utils/types';
 
@@ -10,14 +16,15 @@ import { Specification } from '../../../utils/types';
   templateUrl: './spec-history.component.html',
   styleUrl: './spec-history.component.css',
 })
-export class SpecHistoryComponent implements OnChanges {
+export class SpecHistoryComponent implements OnChanges, OnInit {
   files: Specification[] = [];
 
   selectedSpecDetail?: string;
 
   @Input() specData?: Specification;
 
-  constructor(private specFileService: SpecFileService) {
+  constructor(private specFileService: SpecFileService) {}
+  ngOnInit(): void {
     this.loadHistory();
   }
   ngOnChanges(changes: SimpleChanges): void {

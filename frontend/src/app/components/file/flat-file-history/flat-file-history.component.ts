@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FlatFileService } from '../../../services/flatfile/flatfile.service';
 import { FlatFile } from '../../../utils/types';
 
@@ -10,14 +16,15 @@ import { FlatFile } from '../../../utils/types';
   templateUrl: './flat-file-history.component.html',
   styleUrl: './flat-file-history.component.css',
 })
-export class FlatFileHistoryComponent implements OnChanges {
+export class FlatFileHistoryComponent implements OnChanges, OnInit {
   files: FlatFile[] = [];
 
   selectedFlatFileDetail?: string;
 
   @Input() flatFileData?: FlatFile;
 
-  constructor(private FlatFileService: FlatFileService) {
+  constructor(private FlatFileService: FlatFileService) {}
+  ngOnInit(): void {
     this.loadHistory();
   }
   ngOnChanges(changes: SimpleChanges): void {

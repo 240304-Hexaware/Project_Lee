@@ -3,7 +3,7 @@
   <ul>
     <li *ngFor="let file of files" class="flat-files">
       <button type="button" (click)="handleClickFlatFile(file.id)">
-        {{ extractDate(file.id) | date : "short" }}
+        {{ file.fileName }}
       </button>
     </li>
   </ul>

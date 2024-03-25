@@ -9,3 +9,12 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.register-container button[type="button"] {
+  background-color: #6c757d;
+  color: white;
+}
+
+.register-container button[type="button"]:hover {
+  background-color: #5a6268;
+}

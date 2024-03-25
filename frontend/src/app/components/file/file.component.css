@@ -1,0 +1,19 @@
+.flatfile-upload-container {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.flatfile-upload-container input[type="file"] {
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.flatfile-upload-container button {
+  margin: 10px;
+}
+
+.status {
+  font-weight: bold;
+}

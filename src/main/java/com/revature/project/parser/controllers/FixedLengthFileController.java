@@ -33,9 +33,10 @@ public class FixedLengthFileController {
 
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
-  public void upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws InvalidJwtException {
+  public FixedLengthFile upload(@RequestParam("file") MultipartFile file, HttpServletRequest request)
+      throws InvalidJwtException {
     String userId = jwtTokenUtil.getUserIdFromRequest(request);
-    fixedLengthFileService.store(file, userId);
+    return fixedLengthFileService.store(file, userId);
   }
 
   @GetMapping("")

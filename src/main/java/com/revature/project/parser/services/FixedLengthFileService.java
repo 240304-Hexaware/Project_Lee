@@ -30,11 +30,11 @@ public class FixedLengthFileService {
     this.userService = userService;
   }
 
-  public void store(MultipartFile file, String userId) {
+  public FixedLengthFile store(MultipartFile file, String userId) {
     Objects.requireNonNull(userId);
     String filePath = storageService.store(file, Folder.FLATFILE);
     FixedLengthFile fixedLengthFile = new FixedLengthFile(file.getOriginalFilename(), userId, filePath, null);
-    fixedLengthFileRepository.save(fixedLengthFile);
+    return fixedLengthFileRepository.save(fixedLengthFile);
   }
 
   public FixedLengthFile findById(String rawFileId) throws ItemNotFoundException {

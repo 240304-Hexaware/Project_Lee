@@ -1,5 +1,7 @@
 package com.revature.project.parser.controllers;
 
+import java.time.Duration;
+
 import javax.security.auth.login.CredentialException;
 
 import org.springframework.http.HttpHeaders;
@@ -69,5 +71,21 @@ public class AuthController {
     }
 
     return userService.saveUser(requestedUser);
+  }
+
+  @PostMapping("/logout")
+  @ResponseStatus(HttpStatus.OK)
+  public void logout(HttpServletResponse response) {
+    ResponseCookie emptyCookie = createEmptyCookie();
+    response.addHeader(HttpHeaders.SET_COOKIE, emptyCookie.toString());
+  }
+
+  private ResponseCookie createEmptyCookie() {
+    return ResponseCookie.from(JwtTokenUtil.TOKEN_NAME, "")
+        .httpOnly(true)
+        .secure(true)
+        .path("/")
+        .maxAge(Duration.ofDays(0))
+        .build();
   }
 }

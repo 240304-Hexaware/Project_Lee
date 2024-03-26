@@ -49,12 +49,10 @@ export class AuthService {
       );
   }
 
-  register({ username, password, confirmPassword }: RegisterRequestParams) {
+  register(params: RegisterRequestParams) {
     return this.http
       .post<RegisterResponse>(`${this.baseUrl}/users/register`, {
-        username,
-        password,
-        confirmPassword,
+        params,
       })
       .pipe(
         map((response) => {
@@ -77,7 +75,11 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.CURRENT_USER);
-    // TODO: send something to server to invalidate token
+    this.http.post<void>(
+      `${this.baseUrl}/users/logout`,
+      {},
+      { withCredentials: true }
+    );
     this.isLoggedIn = false;
   }
 }

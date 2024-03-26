@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import {
   ErrorResponse,
   RegisterRequestParams,
@@ -14,7 +14,7 @@ import {
 export class AuthService {
   baseUrl: string = 'http://localhost:8080';
 
-  isLoggedIn: boolean = false;
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
 
   private CURRENT_USER: string = 'currentUser';
 
@@ -36,7 +36,7 @@ export class AuthService {
         map((user) => {
           console.log('user', user);
           localStorage.setItem(this.CURRENT_USER, JSON.stringify(user));
-          this.isLoggedIn = true;
+          this.currentUserSubject.next(user);
           return user;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -65,21 +65,17 @@ export class AuthService {
       );
   }
 
-  getCurrentUserUsername(): string {
-    const currentUser = localStorage.getItem(this.CURRENT_USER);
-    if (currentUser == null) {
-      return '';
-    }
-    return (JSON.parse(currentUser) as User).username;
+  getCurrentUser(): Observable<User | null> {
+    return this.currentUserSubject.asObservable();
   }
 
   logout() {
     localStorage.removeItem(this.CURRENT_USER);
+    this.currentUserSubject.next(null);
     this.http.post<void>(
       `${this.baseUrl}/users/logout`,
       {},
       { withCredentials: true }
     );
-    this.isLoggedIn = false;
   }
 }

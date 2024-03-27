@@ -10,9 +10,10 @@ export class SpecFileService {
   private baseUrl: string = 'http://localhost:8080/specs';
   constructor(private http: HttpClient) {}
 
-  uploadSpec(file: File) {
+  uploadSpec(file: File, name: string) {
     const formData = new FormData();
     formData.append('file', file, file.name);
+    formData.append('name', name);
     return this.http
       .post<Specification>(this.baseUrl, formData, {
         withCredentials: true,

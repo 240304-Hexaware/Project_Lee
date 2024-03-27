@@ -18,10 +18,16 @@ export class SpecComponent {
 
   specDataUploaded?: Specification;
 
+  name: string = '';
+
   constructor(private specFileService: SpecFileService) {}
 
   handleFileInput(event: any) {
     this.fileToUpload = event.target.files[0];
+  }
+
+  handleNameInput(event: any) {
+    this.name = event.target.value;
   }
 
   upload() {
@@ -29,7 +35,11 @@ export class SpecComponent {
       this.updateStatus('select file to upload');
       return;
     }
-    this.specFileService.uploadSpec(this.fileToUpload).subscribe({
+    if (this.name.length == 0) {
+      this.updateStatus('Filename must not be blank');
+      return;
+    }
+    this.specFileService.uploadSpec(this.fileToUpload, this.name).subscribe({
       next: (data) => {
         this.specDataUploaded = data;
         this.updateStatus('succeed to upload');

@@ -38,10 +38,10 @@ public class SpecificationService {
     this.objectMapper = objectMapper;
   }
 
-  public Specification store(MultipartFile file, String userId) {
+  public Specification store(MultipartFile file, String name, String userId) {
     Objects.requireNonNull(userId);
     try {
-      Specification specification = getSpecification(file, userId);
+      Specification specification = createSpecification(file, name, userId);
       specificationRepository.save(specification);
       localStorageService.store(file, Folder.SPECIFICATION);
       return specification;
@@ -51,11 +51,11 @@ public class SpecificationService {
     return null;
   }
 
-  private Specification getSpecification(MultipartFile file, String userId) throws IOException {
+  private Specification createSpecification(MultipartFile file, String name, String userId) throws IOException {
     Map<String, Field> parsedMap = objectMapper.readValue(file.getInputStream(),
         new TypeReference<Map<String, Field>>() {
         });
-    return new Specification(userId, parsedMap);
+    return new Specification(userId, parsedMap, name);
   }
 
   public List<Specification> findAllByUserId(String userId) throws UserNotFoundException {

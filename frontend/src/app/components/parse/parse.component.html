@@ -5,7 +5,7 @@
       <label for="specification">Specification File:</label>
       <select id="specification" [(ngModel)]="selectedSpecId">
         <option *ngFor="let spec of specifications" [value]="spec.id">
-          {{ spec.id }}
+          {{ spec.name }}
         </option>
       </select>
     </div>

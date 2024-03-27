@@ -1,6 +1,10 @@
 <div class="spec-upload-container">
   <h1>Upload file</h1>
-  <input type="file" (change)="handleFileInput($event)" />
+  <label for="upload" class="required">Upload File</label>:
+  <input type="file" name="upload" (change)="handleFileInput($event)" />
+  <br />
+  <label for="name" class="required">Filename</label>:
+  <input type="text" name="name" (change)="handleNameInput($event)" />
   <button type="button" (click)="upload()">Upload</button>
   <span class="status">{{ status }}</span>
 </div>

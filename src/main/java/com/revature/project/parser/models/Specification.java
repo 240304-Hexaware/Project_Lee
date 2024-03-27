@@ -24,16 +24,28 @@ public class Specification {
   @Field("specification_details")
   private Map<String, com.revature.project.parser.models.Field> specs;
 
+  @Field("name")
+  private String name;
+
   public Specification() {
+  }
+
+  public Specification(ObjectId id, String userId, Map<String, com.revature.project.parser.models.Field> specs,
+      String name) {
+    this.id = id;
+    this.userId = userId;
+    this.specs = specs;
+    this.name = name;
+  }
+
+  public Specification(String userId, Map<String, com.revature.project.parser.models.Field> specs, String name) {
+    this.userId = userId;
+    this.specs = specs;
+    this.name = name;
   }
 
   public Specification(ObjectId id, String userId, Map<String, com.revature.project.parser.models.Field> specs) {
     this.id = id;
-    this.userId = userId;
-    this.specs = specs;
-  }
-
-  public Specification(String userId, Map<String, com.revature.project.parser.models.Field> specs) {
     this.userId = userId;
     this.specs = specs;
   }
@@ -60,6 +72,14 @@ public class Specification {
 
   public void setSpecs(Map<String, com.revature.project.parser.models.Field> specs) {
     this.specs = specs;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
 }

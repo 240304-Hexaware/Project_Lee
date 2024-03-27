@@ -12,6 +12,7 @@ export type Specification = {
   id: string;
   userId: string;
   specs: Field[];
+  name: string;
 };
 
 export type FlatFile = {
@@ -19,6 +20,11 @@ export type FlatFile = {
   fileName: string;
   userId: string;
   metaDataId: string;
+};
+
+export type LoginRequestParams = {
+  username: string;
+  password: string;
 };
 
 export type RegisterResponse = {};
@@ -45,4 +51,11 @@ export type ParsedData = {
   userId: string;
   metadataId: string;
   parsedData: string;
+};
+
+export type Metadata = {
+  id: string;
+  flatFile: FlatFile;
+  parsedData: ParsedData;
+  specFile: Specification;
 };

@@ -26,6 +26,10 @@ h1 {
   margin-bottom: 10px;
 }
 
+.spec-files-container li button {
+  width: 100%;
+}
+
 .spec-files-container textarea {
   flex-grow: 1;
   resize: vertical;

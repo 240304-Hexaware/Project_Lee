@@ -50,7 +50,8 @@ public class ParsedRecordService {
     // data
     ParsedRecord initialRecord = createParsedRecord(userId, parsedData); // without metadataId
 
-    FileMetadata createdMetadata = fileMetadataService.create(rawFileId, initialRecord.getId().toHexString(), specId);
+    FileMetadata createdMetadata = fileMetadataService.create(rawFileId, initialRecord.getId().toHexString(), specId,
+        userId);
 
     // update fixed-length file and parsed record with created metadata
     FixedLengthFile updatedFixedLengthFile = updateFixedLengthFileWithMetadata(rawFile, createdMetadata);
@@ -81,6 +82,10 @@ public class ParsedRecordService {
     if (userService.findByUserId(userId) == null) {
       throw new UserNotFoundException("No user found");
     }
+  }
+
+  public ParsedRecord findById(String parsedDataId) {
+    return parsedRecordRepository.findById(parsedDataId);
   }
 
 }

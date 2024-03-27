@@ -20,20 +20,25 @@ public class FileMetadata {
   @Field("specification_id")
   private String specificationId;
 
+  @Field("user_id")
+  private String userId;
+
   public FileMetadata() {
   }
 
-  public FileMetadata(ObjectId id, String rawFileId, String parsedDataId, String specificationId) {
+  public FileMetadata(ObjectId id, String rawFileId, String parsedDataId, String specificationId, String userId) {
     this.id = id;
     this.rawFileId = rawFileId;
     this.parsedDataId = parsedDataId;
     this.specificationId = specificationId;
+    this.userId = userId;
   }
 
-  public FileMetadata(String rawFileId, String parsedDataId, String specificationId) {
+  public FileMetadata(String rawFileId, String parsedDataId, String specificationId, String userId) {
     this.rawFileId = rawFileId;
     this.parsedDataId = parsedDataId;
     this.specificationId = specificationId;
+    this.userId = userId;
   }
 
   public ObjectId getId() {
@@ -66,6 +71,14 @@ public class FileMetadata {
 
   public void setSpecificationId(String specificationId) {
     this.specificationId = specificationId;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
 }

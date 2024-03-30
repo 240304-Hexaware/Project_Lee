@@ -10,11 +10,11 @@
   gap: 10px;
 }
 
-.register-container button[type="button"] {
+.cancel {
   background-color: #6c757d;
   color: white;
 }
 
-.register-container button[type="button"]:hover {
+.cancel:hover {
   background-color: #5a6268;
 }

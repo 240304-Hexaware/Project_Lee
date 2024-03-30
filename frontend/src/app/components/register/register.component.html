@@ -1,12 +1,12 @@
 <div class="register-container">
   <h1>Register</h1>
-  <form (ngSubmit)="register()">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
     <label for="username">Username</label>
     <input
       type="text"
       id="username"
-      [(ngModel)]="this.username"
       name="username"
+      formControlName="username"
       required
     />
 
@@ -14,24 +14,24 @@
     <input
       type="password"
       id="password"
-      [(ngModel)]="this.password"
       name="password"
+      formControlName="password"
       required
-      minlength="3"
     />
 
     <label for="confirmPassword">Confirm Password</label>
     <input
       type="password"
       id="confirmPassword"
-      [(ngModel)]="this.confirmPassword"
       name="confirmPassword"
+      formControlName="confirmPassword"
       required
-      minlength="3"
     />
 
-    <button type="submit">Register</button>
-    <button type="button" [routerLink]="['/login']">Cancel</button>
+    <button type="submit" [disabled]="!registerForm.valid">Register</button>
+    <button class="cancel" type="button" [routerLink]="['/login']">
+      Cancel
+    </button>
   </form>
   <div class="error" *ngIf="error">{{ error }}</div>
 </div>

@@ -1,31 +1,70 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
-import { ErrorResponse } from '../../utils/types';
+import { ErrorResponse, LoginRequestParams } from '../../utils/types';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink, RouterOutlet, CommonModule],
+  imports: [
+    FormsModule,
+    RouterLink,
+    RouterOutlet,
+    CommonModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  loginForm = this.formBuilder.group({
+    username: [
+      '',
+      Validators.compose([Validators.required, Validators.minLength(3)]),
+    ],
+    password: [
+      '',
+      Validators.compose([Validators.required, Validators.minLength(3)]),
+    ],
+  });
+
   error: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {}
 
-  login(username: string, password: string): void {
-    this.authService.login(username, password).subscribe({
-      next: (_) => {
-        this.router.navigate(['/main']);
-      },
-      error: (err: ErrorResponse) => {
-        this.error = err.title ?? 'Something went wrong! Try again.';
-        console.error(err);
-      },
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe((user) => {
+      if (user) {
+        this.router.navigateByUrl('/main');
+      }
     });
+  }
+
+  login(): void {
+    if (!this.loginForm.valid) {
+      return;
+    }
+    this.authService
+      .login({ ...this.loginForm.value } as LoginRequestParams)
+      .subscribe({
+        next: (_) => {
+          this.router.navigate(['/main']);
+        },
+        error: (err: ErrorResponse) => {
+          this.error = err.title ?? 'Something went wrong! Try again.';
+          console.error(err);
+        },
+      });
   }
 }

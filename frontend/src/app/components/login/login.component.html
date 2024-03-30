@@ -1,12 +1,12 @@
 <div class="login-container">
   <h1>Login</h1>
-  <form (ngSubmit)="login(username.value, password.value)">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
     <label for="username">Username</label>
     <input
       type="text"
       id="username"
       placeholder="username"
-      #username
+      formControlName="username"
       required
     />
     <label for="password">Password</label>
@@ -14,11 +14,13 @@
       type="password"
       id="password"
       placeholder="password"
-      #password
+      formControlName="password"
       required
     />
-    <button type="submit">Log In</button>
-    <button type="button" [routerLink]="'/register'">Register</button>
+    <button type="submit" [disabled]="!loginForm.valid">Log In</button>
+    <button class="register" type="button" [routerLink]="'/register'">
+      Register
+    </button>
   </form>
   <pre class="error" *ngIf="error">{{ error }}</pre>
 </div>

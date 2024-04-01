@@ -1,5 +1,7 @@
 package com.revature.project.parser.models;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,22 +25,28 @@ public class FileMetadata {
   @Field("user_id")
   private String userId;
 
+  @Field("parsed_at")
+  private Date parsedAt;
+
   public FileMetadata() {
   }
 
-  public FileMetadata(ObjectId id, String rawFileId, String parsedDataId, String specificationId, String userId) {
+  public FileMetadata(ObjectId id, String rawFileId, String parsedDataId, String specificationId, String userId,
+      Date parsedAt) {
     this.id = id;
     this.rawFileId = rawFileId;
     this.parsedDataId = parsedDataId;
     this.specificationId = specificationId;
     this.userId = userId;
+    this.parsedAt = parsedAt;
   }
 
-  public FileMetadata(String rawFileId, String parsedDataId, String specificationId, String userId) {
+  public FileMetadata(String rawFileId, String parsedDataId, String specificationId, String userId, Date parsedAt) {
     this.rawFileId = rawFileId;
     this.parsedDataId = parsedDataId;
     this.specificationId = specificationId;
     this.userId = userId;
+    this.parsedAt = parsedAt;
   }
 
   public ObjectId getId() {
@@ -79,6 +87,14 @@ public class FileMetadata {
 
   public void setUserId(String userId) {
     this.userId = userId;
+  }
+
+  public Date getParsedAt() {
+    return parsedAt;
+  }
+
+  public void setParsedAt(Date parsedAt) {
+    this.parsedAt = parsedAt;
   }
 
 }

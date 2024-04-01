@@ -62,4 +62,5 @@ export type Metadata = {
   flatFile: FlatFile;
   parsedData: ParsedDataContainer;
   specFile: Specification;
+  parsedAt: string;
 };

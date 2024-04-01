@@ -1,5 +1,6 @@
 package com.revature.project.parser.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,11 +36,11 @@ public class FileMetadataService {
     this.parsedRecordService = null;
   }
 
-  public FileMetadata create(String rawFileId, String parsedDataId, String specId, String userId) {
+  public FileMetadata create(String rawFileId, String parsedDataId, String specId, String userId, Date timestamp) {
     Objects.requireNonNull(rawFileId);
     Objects.requireNonNull(parsedDataId);
     Objects.requireNonNull(specId);
-    FileMetadata metadata = new FileMetadata(rawFileId, parsedDataId, specId, userId);
+    FileMetadata metadata = new FileMetadata(rawFileId, parsedDataId, specId, userId, timestamp);
     return fileMetadataRepository.save(metadata);
   }
 
@@ -50,7 +51,8 @@ public class FileMetadataService {
         Specification specFile = specificationService.findById(metadata.getSpecificationId());
         FixedLengthFile flatFile = fixedLengthFileService.findById(metadata.getRawFileId());
         ParsedRecord parsedRecord = parsedRecordService.findById(metadata.getParsedDataId());
-        return new FileMetadataDto(metadata.getId().toHexString(), flatFile, parsedRecord, specFile);
+        return new FileMetadataDto(metadata.getId().toHexString(), flatFile, parsedRecord, specFile,
+            metadata.getParsedAt());
       } catch (Exception e) {
         return null;
       }

@@ -1,6 +1,7 @@
 package com.revature.project.parser.services;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class ParsedRecordService {
     ParsedRecord initialRecord = createParsedRecord(userId, parsedData); // without metadataId
 
     FileMetadata createdMetadata = fileMetadataService.create(rawFileId, initialRecord.getId().toHexString(), specId,
-        userId);
+        userId, new Date(System.currentTimeMillis()));
 
     // update fixed-length file and parsed record with created metadata
     FixedLengthFile updatedFixedLengthFile = updateFixedLengthFileWithMetadata(rawFile, createdMetadata);

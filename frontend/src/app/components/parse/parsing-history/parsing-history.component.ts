@@ -36,9 +36,13 @@ export class ParsingHistoryComponent implements OnInit {
           flatFile: metadata.flatFile.fileName,
           parsedData: metadata.parsedData.id,
           specFile: metadata.specFile.name,
+          parsedAt: new Date(metadata.parsedAt).toLocaleDateString(),
         });
 
         this.grid.api.setGridOption('rowData', this.rowData);
+        this.grid.api.sizeColumnsToFit({
+          defaultMinWidth: 100,
+        });
       });
     });
   }

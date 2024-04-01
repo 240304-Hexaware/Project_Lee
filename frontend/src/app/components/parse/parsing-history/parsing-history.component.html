@@ -1,10 +1,5 @@
 <h1>History</h1>
-<ag-grid-angular
-  #parsingHistoryGrid
-  class="ag-theme-quartz"
-  style="height: 500px"
->
-</ag-grid-angular>
+<app-generic-table [rowData]="rowData" [colDefs]="colDefs"> </app-generic-table>
 
 <button (click)="showModal = true">Open Modal</button>
 <app-modal [(isOpen)]="showModal">

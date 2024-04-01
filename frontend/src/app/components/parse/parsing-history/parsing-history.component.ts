@@ -1,15 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { MetadataService } from '../../../services/metadata/metadata.service';
 import { ModalComponent } from '../../modal/modal.component';
+import { GenericTableComponent } from '../../shared/generic-table/generic-table.component';
+import { CustomButtonComponent } from './custom-button/custom-button.component';
 
 @Component({
   selector: 'app-parsing-history',
   standalone: true,
   templateUrl: './parsing-history.component.html',
   styleUrl: './parsing-history.component.css',
-  imports: [AgGridAngular, AgGridModule, ModalComponent],
+  imports: [AgGridAngular, AgGridModule, ModalComponent, GenericTableComponent],
 })
 export class ParsingHistoryComponent implements OnInit {
   rowData: any[] = [];
@@ -17,18 +19,23 @@ export class ParsingHistoryComponent implements OnInit {
 
   showModal = false;
 
-  @ViewChild('parsingHistoryGrid') grid!: AgGridAngular;
-
   constructor(private metaDataService: MetadataService) {}
 
   ngOnInit(): void {
     this.metaDataService.getMetadata().subscribe((data) => {
       if (data.length == 0) {
-        this.grid.api.setGridOption('columnDefs', []);
-        this.grid.api.setGridOption('rowData', []);
+        this.colDefs = [];
+        this.rowData = [];
       }
-      Object.keys(data[0]).forEach((key) => this.colDefs.push({ field: key }));
-      this.grid.api.setGridOption('columnDefs', this.colDefs);
+      this.colDefs = Object.keys(data[0]).map((key) => {
+        if (key === 'parsedData') {
+          return {
+            headerName: key,
+            cellRenderer: CustomButtonComponent,
+          };
+        }
+        return { field: key };
+      });
 
       data.forEach((metadata) => {
         this.rowData.push({
@@ -39,10 +46,9 @@ export class ParsingHistoryComponent implements OnInit {
           parsedAt: new Date(metadata.parsedAt).toLocaleDateString(),
         });
 
-        this.grid.api.setGridOption('rowData', this.rowData);
-        this.grid.api.sizeColumnsToFit({
-          defaultMinWidth: 100,
-        });
+        // this.grid.api.sizeColumnsToFit({
+        //   defaultMinWidth: 100,
+        // });
       });
     });
   }

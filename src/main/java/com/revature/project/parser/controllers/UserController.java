@@ -2,7 +2,9 @@ package com.revature.project.parser.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.project.parser.models.User;
@@ -18,6 +20,7 @@ public class UserController {
   }
 
   @GetMapping("/users")
+  @ResponseStatus(HttpStatus.OK)
   public List<User> getUsers() {
     return userService.getUsers();
   }

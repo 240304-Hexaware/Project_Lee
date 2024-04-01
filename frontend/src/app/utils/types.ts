@@ -46,16 +46,20 @@ export type ParsingRequestParams = {
   rawFileId: string;
 };
 
-export type ParsedData = {
+export type ParsedDataContainer = {
   id: string;
   userId: string;
   metadataId: string;
-  parsedData: string;
+  parsedData: ParsedData[];
+};
+
+export type ParsedData = {
+  [key: string]: string;
 };
 
 export type Metadata = {
   id: string;
   flatFile: FlatFile;
-  parsedData: ParsedData;
+  parsedData: ParsedDataContainer;
   specFile: Specification;
 };

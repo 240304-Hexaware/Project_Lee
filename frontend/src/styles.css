@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "ag-grid-community/styles/ag-grid.css";
+@import "ag-grid-community/styles/ag-theme-quartz.css";
+
 * {
   font-family: Arial, sans-serif;
 }
@@ -13,6 +16,12 @@ button {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+}
+
+button:disabled, button:disabled:hover {
+  background-color: rgb(207, 207, 207);
+  cursor: not-allowed;
+  color: black;
 }
 
 button:hover {
@@ -36,4 +45,20 @@ label {
   padding: 10px;
   border-left: 3px solid #ff5555;
   margin-top: 20px;
+}
+
+.success {
+  background-color: #deffea;
+  padding: 10px;
+  border-left: 3px solid #0b6f00;
+  margin-top: 20px;
+}
+
+textarea {
+  font-size: large;
+}
+
+.required:after {
+  content: " *";
+  color: red;
 }

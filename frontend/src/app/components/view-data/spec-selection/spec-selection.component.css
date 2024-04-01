@@ -1,0 +1,9 @@
+.spec-select-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.spec-select-container select {
+  font-size: large;
+}

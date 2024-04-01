@@ -1,6 +1,7 @@
 package com.revature.project.parser.services;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.bson.Document;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.project.parser.exceptions.ItemNotFoundException;
+import com.revature.project.parser.exceptions.ParsingFailedException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
 import com.revature.project.parser.models.FileMetadata;
 import com.revature.project.parser.models.FixedLengthFile;
@@ -39,12 +41,12 @@ public class ParsedRecordService {
 
   @Transactional
   public ParsedRecord process(String userId, String rawFileId, String specId)
-      throws IOException, ItemNotFoundException, UserNotFoundException {
+      throws IOException, ItemNotFoundException, UserNotFoundException, ParsingFailedException {
     validateUserId(userId);
     FixedLengthFile rawFile = fixedLengthFileService.findById(rawFileId);
     Specification spec = specificationService.findById(specId);
 
-    Map<String, String> parsedData = getParsedData(rawFile, spec);
+    List<Map<String, String>> parsedData = getParsedData(rawFile, spec);
 
     // store parsed record with metadataId being null to get an ID of the parsed
     // data
@@ -61,13 +63,15 @@ public class ParsedRecordService {
     return parsedRecordRepository.save(updatedRecord);
   }
 
-  private Map<String, String> getParsedData(FixedLengthFile rawFile, Specification spec) throws IOException {
-    String rawData = localStorageService.readFileAsString(rawFile.getFilePath());
-    return FileParser.readStringFields(rawData, spec.getSpecs());
+  private List<Map<String, String>> getParsedData(FixedLengthFile rawFile, Specification spec)
+      throws IOException, ParsingFailedException {
+    List<String> rawData = localStorageService.readFileAsString(rawFile.getFilePath());
+    return FileParser.readStringFieldsAsList(rawData, spec.getSpecs());
   }
 
-  private ParsedRecord createParsedRecord(String userId, Map<String, String> parsedData) {
-    return parsedRecordRepository.save(new ParsedRecord(userId, null, new Document(parsedData)));
+  private ParsedRecord createParsedRecord(String userId, List<Map<String, String>> parsedData) {
+    return parsedRecordRepository
+        .save(new ParsedRecord(userId, null, parsedData.stream().map(Document::new).toList()));
   }
 
   private FixedLengthFile updateFixedLengthFileWithMetadata(FixedLengthFile oldFile, FileMetadata createdMetadata) {
@@ -86,6 +90,11 @@ public class ParsedRecordService {
 
   public ParsedRecord findById(String parsedDataId) {
     return parsedRecordRepository.findById(parsedDataId);
+  }
+
+  public List<ParsedRecord> findBySpecification(String userId, String specId) {
+    List<FileMetadata> found = fileMetadataService.findAllByUserIdAndSpecificationId(userId, specId);
+    return found.stream().map(metadata -> findById(metadata.getParsedDataId())).toList();
   }
 
 }

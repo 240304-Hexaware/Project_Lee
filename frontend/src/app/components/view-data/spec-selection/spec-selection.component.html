@@ -1,0 +1,9 @@
+<div class="spec-select-container">
+  <label for="spec-select">Choose specification</label>
+  <select name="spec" id="spec-select" (change)="onSelect($event)">
+    <option value="">-------------------------</option>
+    <ng-container *ngFor="let spec of specs">
+      <option value="{{ spec.id }}">{{ spec.name }}</option>
+    </ng-container>
+  </select>
+</div>

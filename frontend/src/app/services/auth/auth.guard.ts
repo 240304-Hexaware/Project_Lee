@@ -8,9 +8,10 @@ export const authGuard: CanActivateFn = (route, state) => {
   let pass = false;
   authService.getCurrentUser().subscribe((user) => {
     pass = !!user;
+    if (!pass) {
+      router.navigate(['/login']);
+    }
+    return pass;
   });
-  if (!pass) {
-    router.navigate(['/login']);
-  }
   return pass;
 };

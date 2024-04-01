@@ -57,4 +57,8 @@ public class FileMetadataService {
     }).filter(Objects::nonNull).collect(Collectors.toList());
   }
 
+  public List<FileMetadata> findAllByUserIdAndSpecificationId(String userId, String specId) {
+    return fileMetadataRepository.findAllByUserIdAndSpecificationId(userId, specId);
+  }
+
 }

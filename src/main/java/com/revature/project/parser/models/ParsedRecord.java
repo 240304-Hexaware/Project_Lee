@@ -1,5 +1,7 @@
 package com.revature.project.parser.models;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,19 +27,19 @@ public class ParsedRecord {
   private String metadataId;
 
   @Field("parsed_data")
-  private org.bson.Document parsedData;
+  private List<org.bson.Document> parsedData;
 
   public ParsedRecord() {
   }
 
-  public ParsedRecord(ObjectId id, String userId, String metadataId, org.bson.Document parsedData) {
+  public ParsedRecord(ObjectId id, String userId, String metadataId, List<org.bson.Document> parsedData) {
     this.id = id;
     this.userId = userId;
     this.metadataId = metadataId;
     this.parsedData = parsedData;
   }
 
-  public ParsedRecord(String userId, String metadataId, org.bson.Document parsedData) {
+  public ParsedRecord(String userId, String metadataId, List<org.bson.Document> parsedData) {
     this.userId = userId;
     this.metadataId = metadataId;
     this.parsedData = parsedData;
@@ -71,11 +73,11 @@ public class ParsedRecord {
     this.metadataId = metadataId;
   }
 
-  public org.bson.Document getParsedData() {
+  public List<org.bson.Document> getParsedData() {
     return parsedData;
   }
 
-  public void setParsedData(org.bson.Document parsedData) {
+  public void setParsedData(List<org.bson.Document> parsedData) {
     this.parsedData = parsedData;
   }
 

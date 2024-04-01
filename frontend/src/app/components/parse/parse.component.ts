@@ -5,17 +5,19 @@ import { FlatFileService } from '../../services/flatfile/flatfile.service';
 import { ParsingService } from '../../services/parsing/parsing.service';
 import { SpecFileService } from '../../services/specfile/spec-file.service';
 import {
+  ErrorResponse,
   FlatFile,
   ParsingRequestParams,
   Specification,
 } from '../../utils/types';
+import { ParsingHistoryComponent } from './parsing-history/parsing-history.component';
 
 @Component({
   selector: 'app-parse',
   standalone: true,
-  imports: [NgFor, FormsModule, CommonModule, NgIf],
   templateUrl: './parse.component.html',
   styleUrl: './parse.component.css',
+  imports: [NgFor, FormsModule, CommonModule, NgIf, ParsingHistoryComponent],
 })
 export class ParseComponent implements OnInit {
   selectedSpecId?: string;
@@ -72,12 +74,21 @@ export class ParseComponent implements OnInit {
       } as ParsingRequestParams)
       .subscribe({
         next: (data) => {
-          this.parsingResult = data.parsedData;
+          this.parsingResult = JSON.stringify(data.parsedData, null, 2);
+          this.resetInput();
         },
-        error: (error) => {
-          // TODO:
+        error: (error: ErrorResponse) => {
+          this.updateErrorMessage(
+            error.title ?? error.details ?? 'Something went wrong, try again.'
+          );
+          this.parsingResult = '';
         },
       });
+  }
+  resetInput() {
+    this.selectedFileId = undefined;
+    this.selectedSpecId = undefined;
+    this.error = undefined;
   }
 
   private updateErrorMessage(message: string) {

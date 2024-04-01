@@ -23,8 +23,11 @@ export class UserProfileComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
-    this.on = false;
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      complete: () => {
+        this.on = false;
+        this.router.navigate(['/login']);
+      },
+    });
   }
 }

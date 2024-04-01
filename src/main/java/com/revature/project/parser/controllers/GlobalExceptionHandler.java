@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.project.parser.exceptions.InvalidJwtException;
 import com.revature.project.parser.exceptions.ItemNotFoundException;
+import com.revature.project.parser.exceptions.ParsingFailedException;
 import com.revature.project.parser.exceptions.UserAlreadyExistsException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
 
@@ -60,6 +61,12 @@ public class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ApiError handleItemNotFound(ItemNotFoundException e) {
     return new ApiError(HttpStatus.NOT_FOUND.value(), e.getMessage(), null);
+  }
+
+  @ExceptionHandler(ParsingFailedException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ApiError handleParsingFailed(ParsingFailedException e) {
+    return new ApiError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
   }
 
   @ExceptionHandler(Exception.class)

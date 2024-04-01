@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.project.parser.exceptions.InvalidJwtException;
 import com.revature.project.parser.exceptions.ItemNotFoundException;
+import com.revature.project.parser.exceptions.ParsingFailedException;
 import com.revature.project.parser.exceptions.UserNotFoundException;
 import com.revature.project.parser.models.ParsedRecord;
 import com.revature.project.parser.payload.request.TaskRequest;
@@ -30,10 +31,11 @@ public class TaskController {
     this.jwtTokenUtil = jwtTokenUtil;
   }
 
+  // TODO: Make it to handle multiple flatfile ids
   @PostMapping("/tasks")
   @ResponseStatus(HttpStatus.OK)
   public ParsedRecord process(@RequestBody @Valid TaskRequest taskRequest, HttpServletRequest request)
-      throws IOException, ItemNotFoundException, UserNotFoundException, InvalidJwtException {
+      throws IOException, ItemNotFoundException, UserNotFoundException, InvalidJwtException, ParsingFailedException {
     String userId = jwtTokenUtil.getUserIdFromRequest(request);
     return parsedRecordService.process(userId, taskRequest.rawFileId(), taskRequest.specId());
   }

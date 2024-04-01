@@ -7,4 +7,6 @@ import com.revature.project.parser.models.ParsedRecord;
 
 public interface ParsedRecordRepository extends MongoRepository<ParsedRecord, ObjectId> {
 
+  ParsedRecord findById(String parsedDataId);
+
 }

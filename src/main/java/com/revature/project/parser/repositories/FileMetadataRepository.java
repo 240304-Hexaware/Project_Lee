@@ -11,4 +11,6 @@ public interface FileMetadataRepository extends MongoRepository<FileMetadata, Ob
 
   List<FileMetadata> findAllByUserId(String userId);
 
+  List<FileMetadata> findAllByUserIdAndSpecificationId(String userId, String specId);
+
 }

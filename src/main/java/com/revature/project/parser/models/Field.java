@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties
 public class Field {
-  private String name;
   private Integer startPos;
   private Integer endPos;
   private String dataType;
@@ -13,19 +12,10 @@ public class Field {
   public Field() {
   }
 
-  public Field(String name, Integer startPos, Integer endPos, String dataType) {
-    this.name = name;
+  public Field(Integer startPos, Integer endPos, String dataType) {
     this.startPos = startPos;
     this.endPos = endPos;
     this.dataType = dataType;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public Integer getStartPos() {

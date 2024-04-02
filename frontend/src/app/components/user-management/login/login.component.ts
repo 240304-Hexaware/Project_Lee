@@ -7,8 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
-import { ErrorResponse, LoginRequestParams } from '../../utils/types';
+import { AuthService } from '../../../services/auth/auth.service';
+import { ErrorResponse, LoginRequestParams } from '../../../utils/types';
 
 @Component({
   selector: 'app-login',

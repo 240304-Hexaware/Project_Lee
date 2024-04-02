@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
-import { FileComponent } from './components/file/file.component';
-import { LoginComponent } from './components/login/login.component';
-import { ParseComponent } from './components/parse/parse.component';
-import { RegisterComponent } from './components/register/register.component';
-import { SpecComponent } from './components/spec/spec.component';
-import { ViewDataComponent } from './components/view-data/view-data.component';
+import { FileComponent } from './components/file-management/file/file.component';
+import { ParseComponent } from './components/parse-management/parse/parse.component';
+import { SpecComponent } from './components/spec-management/spec/spec.component';
+import { LoginComponent } from './components/user-management/login/login.component';
+import { RegistrationComponent } from './components/user-management/registration/registration.component';
+import { ViewDataComponent } from './components/view-data/view-data/view-data.component';
 import { authGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/main', pathMatch: 'full' },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RegistrationComponent },
   { path: 'main', component: SpecComponent, canActivate: [authGuard] },
   { path: 'spec', component: SpecComponent, canActivate: [authGuard] },
   { path: 'file', component: FileComponent, canActivate: [authGuard] },

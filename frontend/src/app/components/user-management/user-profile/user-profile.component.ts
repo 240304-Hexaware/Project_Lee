@@ -1,7 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,6 +16,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
+    // FIXME: if webpage refreshed, username is gone
     this.authService.getCurrentUser().subscribe((user) => {
       this.username = user?.username;
       this.on = !!user;

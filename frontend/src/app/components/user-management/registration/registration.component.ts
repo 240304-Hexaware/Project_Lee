@@ -7,11 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
-import { ErrorResponse, RegisterRequestParams } from '../../utils/types';
+import { AuthService } from '../../../services/auth/auth.service';
+import { ErrorResponse, RegisterRequestParams } from '../../../utils/types';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-registration',
   standalone: true,
   imports: [
     RouterOutlet,
@@ -20,10 +20,10 @@ import { ErrorResponse, RegisterRequestParams } from '../../utils/types';
     RouterLink,
     ReactiveFormsModule,
   ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.css',
 })
-export class RegisterComponent {
+export class RegistrationComponent {
   registerForm = this.formBuilder.group({
     username: [
       '',

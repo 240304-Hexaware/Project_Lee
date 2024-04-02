@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { FlatFileService } from '../../services/flatfile/flatfile.service';
-import { FlatFile } from '../../utils/types';
-import { FlatFileHistoryComponent } from './flat-file-history/flat-file-history.component';
-
+import { FlatFileService } from '../../../services/flatfile/flatfile.service';
+import { FlatFile } from '../../../utils/types';
+import { FlatFileHistoryComponent } from '../flat-file-history/flat-file-history.component';
 @Component({
   selector: 'app-file',
   standalone: true,

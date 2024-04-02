@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SpecFileService } from '../../services/specfile/spec-file.service';
-import { Specification } from '../../utils/types';
-import { SpecHistoryComponent } from './spec-history/spec-history.component';
-
+import { SpecFileService } from '../../../services/specfile/spec-file.service';
+import { Specification } from '../../../utils/types';
+import { SpecHistoryComponent } from '../spec-history/spec-history.component';
 @Component({
   selector: 'app-spec',
   standalone: true,

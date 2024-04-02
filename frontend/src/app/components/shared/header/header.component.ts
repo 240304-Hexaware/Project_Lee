@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UserProfileComponent } from '../user-profile/user-profile.component';
+import { UserProfileComponent } from '../../user-management/user-profile/user-profile.component';
 
 @Component({
   selector: 'app-header',

@@ -1,17 +1,16 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FlatFileService } from '../../services/flatfile/flatfile.service';
-import { ParsingService } from '../../services/parsing/parsing.service';
-import { SpecFileService } from '../../services/specfile/spec-file.service';
+import { FlatFileService } from '../../../services/flatfile/flatfile.service';
+import { ParsingService } from '../../../services/parsing/parsing.service';
+import { SpecFileService } from '../../../services/specfile/spec-file.service';
 import {
   ErrorResponse,
   FlatFile,
   ParsingRequestParams,
   Specification,
-} from '../../utils/types';
-import { ParsingHistoryComponent } from './parsing-history/parsing-history.component';
-
+} from '../../../utils/types';
+import { ParsingHistoryComponent } from '../parsing-history/parsing-history.component';
 @Component({
   selector: 'app-parse',
   standalone: true,

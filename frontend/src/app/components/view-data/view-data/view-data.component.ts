@@ -2,12 +2,11 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-import { ParsedDataService } from '../../services/parsed-data/parsed-data.service';
-import { ParsedDataContainer } from '../../utils/types';
-import { ModalComponent } from '../modal/modal.component';
-import { GenericTableComponent } from '../shared/generic-table/generic-table.component';
-import { SpecSelectionComponent } from './spec-selection/spec-selection.component';
-
+import { ParsedDataService } from '../../../services/parsed-data/parsed-data.service';
+import { ParsedDataContainer } from '../../../utils/types';
+import { ModalComponent } from '../../modal/modal.component';
+import { GenericTableComponent } from '../../shared/generic-table/generic-table.component';
+import { SpecSelectionComponent } from '../spec-selection/spec-selection.component';
 @Component({
   selector: 'app-view-data',
   standalone: true,
@@ -46,6 +45,7 @@ export class ViewDataComponent {
   }
 
   private populate(data: ParsedDataContainer[]) {
+    this.rowData = [];
     if (data.length > 0) {
       this.colDefs = Object.keys(data[0].parsedData[0]).map((key) => ({
         field: key,

@@ -1,0 +1,4 @@
+{
+  "ID": {"start_pos": 0, "end_pos": 4, "dataType": "Integer"},
+  "Name": {"start_pos": 5, "end_pos": 19, "dataType": "String"}
+}

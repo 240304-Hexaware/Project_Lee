@@ -1,0 +1,5 @@
+{
+  "TransactionCode": {"start_pos": 20, "end_pos": 24, "dataType": "String"},
+  "Date": {"start_pos": 25, "end_pos": 32, "dataType": "Date"},
+  "Amount": {"start_pos": 33, "end_pos": 36, "dataType": "Integer"}
+}

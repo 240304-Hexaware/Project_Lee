@@ -1,0 +1,27 @@
+{
+  "transactionID": {
+    "start_pos": 0,
+    "end_pos": 9,
+    "dataType": "String"
+  },
+  "accountNumber": {
+    "start_pos": 10,
+    "end_pos": 19,
+    "dataType": "String"
+  },
+  "amount": {
+    "start_pos": 20,
+    "end_pos": 29,
+    "dataType": "Float"
+  },
+  "transactionDate": {
+    "start_pos": 30,
+    "end_pos": 39,
+    "dataType": "Date"
+  },
+  "description": {
+    "start_pos": 40,
+    "end_pos": 79,
+    "dataType": "String"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "employeeID": {
+    "start_pos": 0,
+    "end_pos": 9,
+    "dataType": "String"
+  },
+  "name": {
+    "start_pos": 10,
+    "end_pos": 39,
+    "dataType": "String"
+  },
+  "department": {
+    "start_pos": 40,
+    "end_pos": 59,
+    "dataType": "String"
+  },
+  "joiningDate": {
+    "start_pos": 60,
+    "end_pos": 69,
+    "dataType": "Date"
+  },
+  "salary": {
+    "start_pos": 70,
+    "end_pos": 79,
+    "dataType": "Float"
+  }
+}

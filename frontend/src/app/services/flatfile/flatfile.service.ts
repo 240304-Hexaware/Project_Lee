@@ -1,13 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { ErrorResponse, FlatFile } from '../../utils/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlatFileService {
-  private baseUrl: string = 'http://localhost:8080/files';
+  private baseUrl: string = `${environment.baseUrl}/files`;
   constructor(private http: HttpClient) {}
 
   uploadFlatFile(file: File) {

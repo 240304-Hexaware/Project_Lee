@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import {
   ErrorResponse,
   ParsedDataContainer,
@@ -11,7 +12,7 @@ import {
   providedIn: 'root',
 })
 export class ParsingService {
-  private baseUrl: string = 'http://localhost:8080/tasks';
+  private baseUrl: string = `${environment.baseUrl}/tasks`;
 
   constructor(private http: HttpClient) {}
 

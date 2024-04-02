@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { ParsedDataContainer } from '../../utils/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ParsedDataService {
-  private baseUrl: string = 'http://localhost:8080/records';
+  private baseUrl: string = `${environment.baseUrl}/records`;
 
   constructor(private http: HttpClient) {}
 

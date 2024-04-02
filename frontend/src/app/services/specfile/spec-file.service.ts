@@ -1,13 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { ErrorResponse, Specification } from '../../utils/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SpecFileService {
-  private baseUrl: string = 'http://localhost:8080/specs';
+  private baseUrl: string = `${environment.baseUrl}/specs`;
   constructor(private http: HttpClient) {}
 
   uploadSpec(file: File, name: string) {

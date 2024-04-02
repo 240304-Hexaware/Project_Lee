@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import {
   ErrorResponse,
   LoginRequestParams,
@@ -13,7 +14,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  baseUrl: string = 'http://localhost:8080';
+  baseUrl: string = `${environment.baseUrl}/users`;
 
   private CURRENT_USER: string = 'currentUser';
 
@@ -25,7 +26,7 @@ export class AuthService {
 
   login(params: LoginRequestParams) {
     return this.http
-      .post<User>(`${this.baseUrl}/users/login`, params, {
+      .post<User>(`${this.baseUrl}/login`, params, {
         withCredentials: true,
       })
       .pipe(
@@ -46,7 +47,7 @@ export class AuthService {
 
   register(params: RegisterRequestParams) {
     return this.http
-      .post<RegisterResponse>(`${this.baseUrl}/users/register`, params)
+      .post<RegisterResponse>(`${this.baseUrl}/register`, params)
       .pipe(
         catchError((error) => {
           const errorResponse: ErrorResponse = {
@@ -63,7 +64,7 @@ export class AuthService {
 
   logout() {
     return this.http
-      .post<void>(`${this.baseUrl}/users/logout`, {}, { withCredentials: true })
+      .post<void>(`${this.baseUrl}/logout`, {}, { withCredentials: true })
       .pipe(
         map(() => {
           localStorage.removeItem(this.CURRENT_USER);

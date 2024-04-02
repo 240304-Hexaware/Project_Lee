@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { MetadataService } from '../../../services/metadata/metadata.service';
-import { ModalComponent } from '../../modal/modal.component';
 import { GenericTableComponent } from '../../shared/generic-table/generic-table.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomButtonComponent } from './custom-button/custom-button.component';
 
 @Component({
@@ -16,8 +16,6 @@ import { CustomButtonComponent } from './custom-button/custom-button.component';
 export class ParsingHistoryComponent implements OnInit {
   rowData: any[] = [];
   colDefs: ColDef[] = [];
-
-  showModal = false;
 
   constructor(private metaDataService: MetadataService) {}
 

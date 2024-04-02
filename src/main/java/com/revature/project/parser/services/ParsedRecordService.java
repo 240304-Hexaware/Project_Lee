@@ -98,4 +98,12 @@ public class ParsedRecordService {
     return found.stream().map(metadata -> findById(metadata.getParsedDataId())).toList();
   }
 
+  public List<ParsedRecord> findByParsedDataId(String parsedDataId) {
+    return List.of(parsedRecordRepository.findById(parsedDataId));
+  }
+
+  public List<ParsedRecord> findAllForUser(String userId) {
+    return parsedRecordRepository.findAllByUserId(userId);
+  }
+
 }

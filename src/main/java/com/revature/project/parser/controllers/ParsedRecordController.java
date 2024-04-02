@@ -30,10 +30,20 @@ public class ParsedRecordController {
 
   @GetMapping("")
   @ResponseStatus(HttpStatus.OK)
-  public List<ParsedRecord> getAllBySpecification(@RequestParam(required = true) String specId,
+  public List<ParsedRecord> getAllRecords(@RequestParam(required = false) String specId,
+      @RequestParam(required = false) String parsedDataId,
       HttpServletRequest request)
       throws InvalidJwtException {
+
     String userId = jwtTokenUtil.getUserIdFromRequest(request);
-    return parsedRecordService.findBySpecification(userId, specId);
+    if (specId != null && !specId.isEmpty() && parsedDataId != null && !parsedDataId.isEmpty()) {
+      throw new UnsupportedOperationException();
+    } else if (specId != null && !specId.isEmpty()) {
+      return parsedRecordService.findBySpecification(userId, specId);
+    } else if (parsedDataId != null && !parsedDataId.isEmpty()) {
+      return parsedRecordService.findByParsedDataId(parsedDataId);
+    } else {
+      return parsedRecordService.findAllForUser(userId);
+    }
   }
 }

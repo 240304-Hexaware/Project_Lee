@@ -1,5 +1,6 @@
 import { NgFor } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SpecFileService } from '../../../services/specfile/spec-file.service';
 import { Specification } from '../../../utils/types';
 
@@ -13,9 +14,10 @@ import { Specification } from '../../../utils/types';
 export class SpecSelectionComponent implements OnInit {
   specs: Specification[] = [];
 
-  @Output() specSelected = new EventEmitter<string>();
-
-  constructor(private specFileService: SpecFileService) {}
+  constructor(
+    private specFileService: SpecFileService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
     this.specFileService.getAllSpecs().subscribe((data) => (this.specs = data));
   }
@@ -25,6 +27,10 @@ export class SpecSelectionComponent implements OnInit {
     if (!selectedSpecId) {
       return;
     }
-    this.specSelected.emit(selectedSpecId);
+    this.router.navigate(['/view'], {
+      queryParams: {
+        specId: selectedSpecId,
+      },
+    });
   }
 }

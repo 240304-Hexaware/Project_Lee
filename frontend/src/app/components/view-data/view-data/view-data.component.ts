@@ -1,11 +1,12 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { ParsedDataService } from '../../../services/parsed-data/parsed-data.service';
 import { ParsedDataContainer } from '../../../utils/types';
-import { ModalComponent } from '../../modal/modal.component';
 import { GenericTableComponent } from '../../shared/generic-table/generic-table.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { SpecSelectionComponent } from '../spec-selection/spec-selection.component';
 @Component({
   selector: 'app-view-data',
@@ -21,17 +22,41 @@ import { SpecSelectionComponent } from '../spec-selection/spec-selection.compone
     NgIf,
   ],
 })
-export class ViewDataComponent {
+export class ViewDataComponent implements OnInit {
   parsedData: ParsedDataContainer[] = [];
 
   rowData: any[] = [];
   colDefs: ColDef[] = [];
 
   error?: string;
+  constructor(
+    private parsedDataService: ParsedDataService,
+    private activatedRoute: ActivatedRoute
+  ) {}
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((queryParam) => {
+      const parsedId = queryParam['parsedId'];
+      const specId = queryParam['specId'];
+      if (parsedId && !specId) {
+        this.populateWithParsedDataId(queryParam['parsedId']);
+      } else if (!parsedId && specId) {
+        this.populateWithSpecId(specId);
+      } else if (parsedId && specId) {
+        // TODO
+      }
+    });
+  }
 
-  constructor(private parsedDataService: ParsedDataService) {}
+  private populateWithParsedDataId(id: string) {
+    this.parsedDataService.fetchAllByParsedDataId(id).subscribe({
+      next: (data) => this.populate(data),
+      error: (_) => {
+        this.error = 'failed to fetch data';
+      },
+    });
+  }
 
-  handleSpecSelected(specId: string) {
+  populateWithSpecId(specId: string) {
     this.error = '';
     // TODO: pagination
     this.parsedDataService.getAllBySpec(specId).subscribe({

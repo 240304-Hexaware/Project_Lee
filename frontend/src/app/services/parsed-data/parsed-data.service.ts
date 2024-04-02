@@ -20,4 +20,15 @@ export class ParsedDataService {
       }
     );
   }
+
+  fetchAllByParsedDataId(
+    parsedDataId: string
+  ): Observable<ParsedDataContainer[]> {
+    return this.http.get<ParsedDataContainer[]>(
+      `${this.baseUrl}?parsedDataId=${parsedDataId}`,
+      {
+        withCredentials: true,
+      }
+    );
+  }
 }

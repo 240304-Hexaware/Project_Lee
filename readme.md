@@ -20,5 +20,5 @@
 ## Stretch Goals
 
 - [x] Authenticate users with registration and login
-- [ ] Download copies of original fixed-length files from archive
+- [X] Download copies of original fixed-length files from archive
 - [ ] Download a JSON representation of all records from a fixed-length file

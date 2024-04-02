@@ -3,6 +3,7 @@ package com.revature.project.parser.services;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -73,6 +74,20 @@ public class LocalStorageService implements StorageService {
     }
 
     return read;
+  }
+
+  @Override
+  public String readFileFromPath(String filePath) throws IOException {
+    Objects.requireNonNull(filePath);
+    FileReader stream = new FileReader(new File(filePath));
+    StringBuilder builder = new StringBuilder();
+    try (BufferedReader reader = new BufferedReader(stream)) {
+      while (reader.ready()) {
+        builder.append(reader.readLine()).append("\n");
+      }
+    }
+
+    return builder.toString();
   }
 
 }

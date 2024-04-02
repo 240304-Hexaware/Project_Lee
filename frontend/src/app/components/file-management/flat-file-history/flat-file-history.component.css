@@ -29,5 +29,4 @@ h1 {
 .flat-files-container textarea {
   flex-grow: 1;
   resize: vertical;
-  height: 600px;
 }

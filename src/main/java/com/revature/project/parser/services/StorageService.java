@@ -11,4 +11,6 @@ public interface StorageService {
   String store(MultipartFile file, Folder folderName);
 
   List<String> readFileAsString(String filePath) throws IOException;
+
+  String readFileFromPath(String filePath) throws IOException;
 }

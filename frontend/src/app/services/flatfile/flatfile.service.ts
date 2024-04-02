@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { ErrorResponse, FlatFile } from '../../utils/types';
 
@@ -19,9 +19,6 @@ export class FlatFileService {
         withCredentials: true,
       })
       .pipe(
-        map((data) => {
-          return data;
-        }),
         catchError((error: HttpErrorResponse) => {
           console.error(error);
           const errorResponse: ErrorResponse = {
@@ -38,9 +35,23 @@ export class FlatFileService {
         withCredentials: true,
       })
       .pipe(
-        map((data) => {
-          return data;
-        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          const errorResponse: ErrorResponse = {
+            ...error.error,
+          };
+          return throwError(() => errorResponse);
+        })
+      );
+  }
+
+  downloadFile(fileId: string) {
+    return this.http
+      .get(`${this.baseUrl}/blob/${fileId}`, {
+        withCredentials: true,
+        responseType: 'text',
+      })
+      .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error(error);
           const errorResponse: ErrorResponse = {

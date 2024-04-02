@@ -1,5 +1,6 @@
 package com.revature.project.parser.services;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -55,6 +56,14 @@ public class FixedLengthFileService {
       return Arrays.asList();
     }
     return fixedLengthFileRepository.findAllByUserId(found.getId().toHexString());
+  }
+
+  public String getFile(String fileId) throws ItemNotFoundException, IOException {
+    Optional<FixedLengthFile> found = fixedLengthFileRepository.findById(new ObjectId(fileId));
+    if (found.isEmpty()) {
+      throw new ItemNotFoundException("No flat file found");
+    }
+    return storageService.readFileFromPath(found.get().getFilePath());
   }
 
 }

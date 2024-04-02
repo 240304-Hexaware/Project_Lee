@@ -14,4 +14,7 @@
     [value]="selectedFlatFileDetail ?? 'Click flat file to see'"
     disabled
   ></textarea>
+  <app-flat-file-download-button
+    [fileIdToDownload]="selectedFlatFile"
+  ></app-flat-file-download-button>
 </div>

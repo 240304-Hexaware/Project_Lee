@@ -8,47 +8,52 @@ import {
 } from '@angular/core';
 import { FlatFileService } from '../../../services/flatfile/flatfile.service';
 import { FlatFile } from '../../../utils/types';
+import { FlatFileDownloadButtonComponent } from '../flat-file-download-button/flat-file-download-button.component';
 
 @Component({
   selector: 'app-flat-file-history',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './flat-file-history.component.html',
   styleUrl: './flat-file-history.component.css',
+  imports: [CommonModule, FlatFileDownloadButtonComponent],
 })
 export class FlatFileHistoryComponent implements OnChanges, OnInit {
   files: FlatFile[] = [];
 
   selectedFlatFileDetail?: string;
 
-  @Input() flatFileData?: FlatFile;
+  @Input() flatFileDataBeingAdded?: FlatFile;
 
-  constructor(private FlatFileService: FlatFileService) {}
+  error?: string;
+  selectedFlatFile?: FlatFile;
+
+  constructor(private flatFileService: FlatFileService) {}
   ngOnInit(): void {
     this.loadHistory();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['flatFileData'] && this.flatFileData) {
-      this.files.push(this.flatFileData);
+    if (changes['flatFileDataBeingAdded'] && this.flatFileDataBeingAdded) {
+      this.files.push(this.flatFileDataBeingAdded);
     }
   }
 
   loadHistory() {
-    this.FlatFileService.getAllFlatFile().subscribe({
+    this.flatFileService.getAllFlatFile().subscribe({
       next: (data) => {
-        this.files = data;
+        this.files = data || [];
+      },
+      error: (error) => {
+        console.error('Failed to load flat file history:', error);
+        this.error = 'Failed to load flat file history';
       },
     });
   }
 
-  extractDate(id: string): string {
-    const parsed = JSON.parse(JSON.stringify(id));
-    return parsed['date'];
-  }
   handleClickFlatFile(id: string) {
     const found = this.files.find((file) => file.id == id);
     if (found != null) {
       this.selectedFlatFileDetail = this.getDetail(found);
+      this.selectedFlatFile = found;
     }
   }
 
@@ -56,7 +61,6 @@ export class FlatFileHistoryComponent implements OnChanges, OnInit {
     let strs = [];
     strs.push(
       `filename: ${flatfile.fileName}`,
-      `uploaded_at ${new Date(this.extractDate(flatfile.id))}`,
       `uploader_id: ${flatfile.userId}`,
       `parsed: ${flatfile.metaDataId != null ? 'Y' : 'N'}`
     );

@@ -32,4 +32,10 @@ export class ParsedDataService {
       }
     );
   }
+
+  fetchAll() {
+    return this.http.get<ParsedDataContainer[]>(this.baseUrl, {
+      withCredentials: true,
+    });
+  }
 }

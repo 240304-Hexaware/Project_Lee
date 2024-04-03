@@ -9,13 +9,13 @@
 - [x] View parsed records (3 views for MVP, see below) (MVP #2)
   - [x] Whenever I parse a file, I should immediately get the parsed data rendered on screen
     - [x] on the backend we get the fixed-length file, parse it according to a spec file, and return the JSON - representation of all records parsed form that file.
-  - [ ] A view of all parsed records from the current user (even if we don't have real authentication)
+  - [x] A view of all parsed records from the current user (even if we don't have real authentication)
     - [x] on the backend you get the request and query the database for all records associated with that user
-    - [ ] then return that collection of records to the front end, where it is "unwrapped" and rendered on screen - (not just in the console)
+    - [x] then return that collection of records to the front end, where it is "unwrapped" and rendered on screen - (not just in the console)
   - [x] A view of all records that are of a specific type (for instance maybe I want to see all car records, - which are those parsed from the fixed-length files that a car spec file describes)
     - [x] on the backend you get the request and query the database for all records associated with specific spec - file.
     - [x] then return that collection of records to the front end, where it is "unwrapped" and rendered on screen - (not just in the console)
-- [ ] Offer a web UI for users to access functionality (MVP #1-3)
+- [x] Offer a web UI for users to access functionality (MVP #1-3)
 
 ## Stretch Goals
 

@@ -1,4 +1,29 @@
-<h1>View By Specification</h1>
-<app-spec-selection></app-spec-selection>
-<div class="error" *ngIf="error">{{ error }}</div>
-<app-generic-table [rowData]="rowData" [colDefs]="colDefs"></app-generic-table>
+<fieldset>
+  <legend>Select view option</legend>
+  <input
+    type="radio"
+    name="view-option"
+    id="view-by-specification"
+    value="view-by-specification"
+    [(ngModel)]="selectedViewOption"
+  />
+  <label for="view-by-specification">View By Specification</label>
+  <input
+    type="radio"
+    name="view-option"
+    id="view-all"
+    value="view-all"
+    [(ngModel)]="selectedViewOption"
+  />
+  <label for="view-all">View All</label>
+</fieldset>
+
+<ng-container *ngIf="selectedViewOption === 'view-by-specification'">
+  <h1>View By Specification</h1>
+  <app-view-all-by-specification></app-view-all-by-specification>
+</ng-container>
+
+<ng-container *ngIf="selectedViewOption === 'view-all'">
+  <h1>View All Data</h1>
+  <app-view-all-data></app-view-all-data>
+</ng-container>

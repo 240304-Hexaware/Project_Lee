@@ -25,24 +25,20 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(params: LoginRequestParams) {
-    return this.http
-      .post<User>(`${this.baseUrl}/login`, params, {
-        withCredentials: true,
+    return this.http.post<User>(`${this.baseUrl}/login`, params).pipe(
+      map((user) => {
+        localStorage.setItem(this.CURRENT_USER, JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return user;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
       })
-      .pipe(
-        map((user) => {
-          localStorage.setItem(this.CURRENT_USER, JSON.stringify(user));
-          this.currentUserSubject.next(user);
-          return user;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          console.error(error);
-          const errorResponse: ErrorResponse = {
-            ...error.error,
-          };
-          return throwError(() => errorResponse);
-        })
-      );
+    );
   }
 
   register(params: RegisterRequestParams) {
@@ -63,13 +59,11 @@ export class AuthService {
   }
 
   logout() {
-    return this.http
-      .post<void>(`${this.baseUrl}/logout`, {}, { withCredentials: true })
-      .pipe(
-        map(() => {
-          localStorage.removeItem(this.CURRENT_USER);
-          this.currentUserSubject.next(null);
-        })
-      );
+    return this.http.post<void>(`${this.baseUrl}/logout`, {}).pipe(
+      map(() => {
+        localStorage.removeItem(this.CURRENT_USER);
+        this.currentUserSubject.next(null);
+      })
+    );
   }
 }

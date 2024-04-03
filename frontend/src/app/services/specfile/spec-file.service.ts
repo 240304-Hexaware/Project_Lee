@@ -15,40 +15,32 @@ export class SpecFileService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     formData.append('name', name);
-    return this.http
-      .post<Specification>(this.baseUrl, formData, {
-        withCredentials: true,
+    return this.http.post<Specification>(this.baseUrl, formData).pipe(
+      map((data) => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
       })
-      .pipe(
-        map((data) => {
-          return data;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          console.error(error);
-          const errorResponse: ErrorResponse = {
-            ...error.error,
-          };
-          return throwError(() => errorResponse);
-        })
-      );
+    );
   }
 
   getAllSpecs() {
-    return this.http
-      .get<Specification[]>(this.baseUrl, {
-        withCredentials: true,
+    return this.http.get<Specification[]>(this.baseUrl).pipe(
+      map((data) => {
+        return data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
       })
-      .pipe(
-        map((data) => {
-          return data;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          console.error(error);
-          const errorResponse: ErrorResponse = {
-            ...error.error,
-          };
-          return throwError(() => errorResponse);
-        })
-      );
+    );
   }
 }

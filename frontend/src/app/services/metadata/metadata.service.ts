@@ -13,6 +13,6 @@ export class MetadataService {
   constructor(private http: HttpClient) {}
 
   getMetadata(): Observable<Metadata[]> {
-    return this.http.get<Metadata[]>(this.baseUrl, { withCredentials: true });
+    return this.http.get<Metadata[]>(this.baseUrl);
   }
 }

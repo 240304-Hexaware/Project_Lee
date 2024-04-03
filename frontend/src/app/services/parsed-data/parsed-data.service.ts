@@ -15,10 +15,7 @@ export class ParsedDataService {
   getAllBySpec(specId: string): Observable<ParsedDataContainer[]> {
     // TODO: error handler
     return this.http.get<ParsedDataContainer[]>(
-      `${this.baseUrl}?specId=${specId}`,
-      {
-        withCredentials: true,
-      }
+      `${this.baseUrl}?specId=${specId}`
     );
   }
 
@@ -26,16 +23,11 @@ export class ParsedDataService {
     parsedDataId: string
   ): Observable<ParsedDataContainer[]> {
     return this.http.get<ParsedDataContainer[]>(
-      `${this.baseUrl}?parsedDataId=${parsedDataId}`,
-      {
-        withCredentials: true,
-      }
+      `${this.baseUrl}?parsedDataId=${parsedDataId}`
     );
   }
 
   fetchAll() {
-    return this.http.get<ParsedDataContainer[]>(this.baseUrl, {
-      withCredentials: true,
-    });
+    return this.http.get<ParsedDataContainer[]>(this.baseUrl);
   }
 }

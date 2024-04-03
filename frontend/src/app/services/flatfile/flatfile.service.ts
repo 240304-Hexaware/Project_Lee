@@ -14,41 +14,32 @@ export class FlatFileService {
   uploadFlatFile(file: File) {
     const formData = new FormData();
     formData.append('file', file, file.name);
-    return this.http
-      .post<FlatFile>(this.baseUrl, formData, {
-        withCredentials: true,
+    return this.http.post<FlatFile>(this.baseUrl, formData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
       })
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error(error);
-          const errorResponse: ErrorResponse = {
-            ...error.error,
-          };
-          return throwError(() => errorResponse);
-        })
-      );
+    );
   }
 
   getAllFlatFile() {
-    return this.http
-      .get<FlatFile[]>(this.baseUrl, {
-        withCredentials: true,
+    return this.http.get<FlatFile[]>(this.baseUrl).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
       })
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error(error);
-          const errorResponse: ErrorResponse = {
-            ...error.error,
-          };
-          return throwError(() => errorResponse);
-        })
-      );
+    );
   }
 
   downloadFile(fileId: string) {
     return this.http
       .get(`${this.baseUrl}/blob/${fileId}`, {
-        withCredentials: true,
         responseType: 'text',
       })
       .pipe(

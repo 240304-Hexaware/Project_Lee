@@ -17,17 +17,13 @@ export class ParsingService {
   constructor(private http: HttpClient) {}
 
   parse(params: ParsingRequestParams): Observable<ParsedDataContainer> {
-    return this.http
-      .post<ParsedDataContainer>(this.baseUrl, params, {
-        withCredentials: true,
+    return this.http.post<ParsedDataContainer>(this.baseUrl, params).pipe(
+      catchError((error) => {
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
       })
-      .pipe(
-        catchError((error) => {
-          const errorResponse: ErrorResponse = {
-            ...error.error,
-          };
-          return throwError(() => errorResponse);
-        })
-      );
+    );
   }
 }

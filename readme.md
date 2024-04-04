@@ -21,4 +21,4 @@
 
 - [x] Authenticate users with registration and login
 - [X] Download copies of original fixed-length files from archive
-- [ ] Download a JSON representation of all records from a fixed-length file
+- [x] Download a JSON representation of all records from a fixed-length file

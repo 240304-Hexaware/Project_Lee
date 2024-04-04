@@ -17,5 +17,5 @@ import { RegistrationComponent } from './components/user-management/registration
   ],
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'File Parser';
 }

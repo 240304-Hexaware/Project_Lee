@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { Metadata } from '../../utils/types';
+import { ErrorResponse, Metadata } from '../../utils/types';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,14 @@ export class MetadataService {
   constructor(private http: HttpClient) {}
 
   getMetadata(): Observable<Metadata[]> {
-    return this.http.get<Metadata[]>(this.baseUrl);
+    return this.http.get<Metadata[]>(this.baseUrl).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
+      })
+    );
   }
 }

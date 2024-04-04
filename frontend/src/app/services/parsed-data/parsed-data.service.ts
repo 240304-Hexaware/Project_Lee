@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { ParsedDataContainer } from '../../utils/types';
+import { ErrorResponse, ParsedDataContainer } from '../../utils/types';
 
 @Injectable({
   providedIn: 'root',
@@ -13,21 +13,46 @@ export class ParsedDataService {
   constructor(private http: HttpClient) {}
 
   getAllBySpec(specId: string): Observable<ParsedDataContainer[]> {
-    // TODO: error handler
-    return this.http.get<ParsedDataContainer[]>(
-      `${this.baseUrl}?specId=${specId}`
-    );
+    return this.http
+      .get<ParsedDataContainer[]>(`${this.baseUrl}?specId=${specId}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          const errorResponse: ErrorResponse = {
+            ...error.error,
+          };
+          return throwError(() => errorResponse);
+        })
+      );
   }
 
   fetchAllByParsedDataId(
     parsedDataId: string
   ): Observable<ParsedDataContainer[]> {
-    return this.http.get<ParsedDataContainer[]>(
-      `${this.baseUrl}?parsedDataId=${parsedDataId}`
-    );
+    return this.http
+      .get<ParsedDataContainer[]>(
+        `${this.baseUrl}?parsedDataId=${parsedDataId}`
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          const errorResponse: ErrorResponse = {
+            ...error.error,
+          };
+          return throwError(() => errorResponse);
+        })
+      );
   }
 
   fetchAll() {
-    return this.http.get<ParsedDataContainer[]>(this.baseUrl);
+    return this.http.get<ParsedDataContainer[]>(this.baseUrl).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        const errorResponse: ErrorResponse = {
+          ...error.error,
+        };
+        return throwError(() => errorResponse);
+      })
+    );
   }
 }

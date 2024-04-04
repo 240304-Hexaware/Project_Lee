@@ -30,6 +30,7 @@ export class ParsingHistoryComponent implements OnInit {
           return {
             headerName: key,
             cellRenderer: CustomButtonComponent,
+            minWidth: 300,
           };
         }
         return { field: key };

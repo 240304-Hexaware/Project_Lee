@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FlatFileService } from '../../../services/flatfile/flatfile.service';
 import { FlatFile } from '../../../utils/types';
+import { download } from '../../../utils/utils';
 
 @Component({
   selector: 'app-flat-file-download-button',
@@ -21,12 +22,8 @@ export class FlatFileDownloadButtonComponent {
     this.flatFileService
       .downloadFile(this.fileIdToDownload.id)
       .subscribe((data) => {
-        const downloadFile = new Blob([data], { type: 'text/plain' });
-        const linkElement = document.createElement('a');
-        linkElement.href = URL.createObjectURL(downloadFile);
-        linkElement.download = this.fileIdToDownload?.fileName ?? 'flatfile';
-        linkElement.click();
-        linkElement.remove();
+        const filename = this.fileIdToDownload?.fileName ?? 'flatfile';
+        download(data, filename);
       });
   }
 }

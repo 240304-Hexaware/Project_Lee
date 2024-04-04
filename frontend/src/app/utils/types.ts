@@ -54,7 +54,7 @@ export type ParsedDataContainer = {
 };
 
 export type ParsedData = {
-  [key: string]: string;
+  [key: string]: string | number;
 };
 
 export type Metadata = {

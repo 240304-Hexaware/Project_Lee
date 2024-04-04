@@ -47,7 +47,7 @@ public class ParsedRecordService {
     FixedLengthFile rawFile = fixedLengthFileService.findById(rawFileId);
     Specification spec = specificationService.findById(specId);
 
-    List<Map<String, String>> parsedData = getParsedData(rawFile, spec);
+    List<Map<String, Object>> parsedData = getParsedData(rawFile, spec);
 
     // store parsed record with metadataId being null to get an ID of the parsed
     // data
@@ -64,13 +64,13 @@ public class ParsedRecordService {
     return parsedRecordRepository.save(updatedRecord);
   }
 
-  private List<Map<String, String>> getParsedData(FixedLengthFile rawFile, Specification spec)
+  private List<Map<String, Object>> getParsedData(FixedLengthFile rawFile, Specification spec)
       throws IOException, ParsingFailedException {
     List<String> rawData = localStorageService.readFileAsString(rawFile.getFilePath());
     return FileParser.readStringFieldsAsList(rawData, spec.getSpecs());
   }
 
-  private ParsedRecord createParsedRecord(String userId, List<Map<String, String>> parsedData) {
+  private ParsedRecord createParsedRecord(String userId, List<Map<String, Object>> parsedData) {
     return parsedRecordRepository
         .save(new ParsedRecord(userId, null, parsedData.stream().map(Document::new).toList()));
   }
